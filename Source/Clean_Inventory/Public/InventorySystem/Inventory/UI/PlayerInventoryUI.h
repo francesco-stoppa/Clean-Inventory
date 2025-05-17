@@ -5,7 +5,7 @@
 #include "PlayerInventoryUI.generated.h"
 /* * I use this script to create a UWidget with a button for the function Sort() */
 UCLASS()
-class TBO02_API UPlayerInventoryUI : public UUserWidget
+class CLEAN_INVENTORY_API UPlayerInventoryUI : public UUserWidget
 {
 	GENERATED_BODY()
 	

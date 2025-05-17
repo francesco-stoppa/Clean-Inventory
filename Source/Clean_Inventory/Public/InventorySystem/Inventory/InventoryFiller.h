@@ -7,7 +7,7 @@
 
 /* This is a component that randomly generates items in the inventory. */
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class TBO02_API UInventoryFiller: public UActorComponent
+class CLEAN_INVENTORY_API UInventoryFiller: public UActorComponent
 {
 	GENERATED_BODY()
 

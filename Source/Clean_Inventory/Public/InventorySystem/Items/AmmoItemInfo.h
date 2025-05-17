@@ -6,9 +6,9 @@
 #include "AmmoItemInfo.generated.h"
 
 UCLASS()
-class TBO02_API UAmmoItemInfo : public UItemInfo 
+class CLEAN_INVENTORY_API UAmmoItemInfo : public UItemInfo 
 {
 	GENERATED_BODY()
 public:
-	void UseItem_Implementation(class AGenericCharacter* Target) override;
+	 void UseItem_Implementation(/*class AGenericCharacter* Target*/) override;
 };

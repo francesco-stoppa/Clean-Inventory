@@ -6,7 +6,7 @@
 
 /* * I use this script to create a UWidget with a button for the function TakeAll() */
 UCLASS()
-class TBO02_API ULootInventoryUi : public UUserWidget
+class CLEAN_INVENTORY_API ULootInventoryUi : public UUserWidget
 {
 	GENERATED_BODY()
 	

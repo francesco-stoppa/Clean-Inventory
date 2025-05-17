@@ -5,7 +5,7 @@
 #include "ListToStortItems.generated.h"
 
 UCLASS()
-class TBO02_API UListToStortItems : public UDataAsset
+class CLEAN_INVENTORY_API UListToStortItems : public UDataAsset
 {
 	GENERATED_BODY()
 

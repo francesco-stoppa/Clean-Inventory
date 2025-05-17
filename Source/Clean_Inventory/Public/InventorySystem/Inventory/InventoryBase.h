@@ -11,7 +11,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSortSlotSignature, bool, slotSlots)
 This is a list of objects with a capacity limit and the ability to reorder themselves.
 */
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class TBO02_API UInventoryBase : public UActorComponent
+class CLEAN_INVENTORY_API UInventoryBase : public UActorComponent
 {
 	GENERATED_BODY()
 

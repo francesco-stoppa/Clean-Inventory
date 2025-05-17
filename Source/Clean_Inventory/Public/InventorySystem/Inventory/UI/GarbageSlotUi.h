@@ -5,7 +5,7 @@
 #include "GarbageSlotUi.generated.h"
 
 UCLASS()
-class TBO02_API UGarbageSlotUi : public UUserWidget
+class CLEAN_INVENTORY_API UGarbageSlotUi : public UUserWidget
 {
 	GENERATED_BODY()
 	// Fields

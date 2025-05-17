@@ -15,7 +15,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSelectSlotSignature, bool, selectOn
 /*
 I use this Actor component for everything related to player inventory and game object management. */
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class TBO02_API UManageInventorySlots : public UActorComponent
+class CLEAN_INVENTORY_API UManageInventorySlots : public UActorComponent
 {
 	GENERATED_BODY()
 
@@ -51,8 +51,8 @@ private:
 	UPROPERTY(EditAnywhere)
 	float InventoryTimesMultiplier = 1.0f;
 
-	UPROPERTY()
-	class AGenericCharacter* characterOwner;
+	// UPROPERTY()
+	// class AGenericCharacter* characterOwner;
 private:
 	// All Inventory in UI
 	UPROPERTY(EditAnywhere, Category = "Inventory")

@@ -5,7 +5,7 @@
 #include "ModifierItemInfo.generated.h"
 
 UCLASS()
-class TBO02_API UModifierItemInfo : public UItemInfo
+class CLEAN_INVENTORY_API UModifierItemInfo : public UItemInfo
 {
 	GENERATED_BODY()
 public:

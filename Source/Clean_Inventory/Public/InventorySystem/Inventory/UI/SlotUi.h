@@ -6,7 +6,7 @@
 
 /* *This UWidget is bind by the event in the UInventoryBase and the UManageInventorySlots. */
 UCLASS()
-class TBO02_API USlotUi : public UUserWidget
+class CLEAN_INVENTORY_API USlotUi : public UUserWidget
 {
 	GENERATED_BODY()
 	// Fields

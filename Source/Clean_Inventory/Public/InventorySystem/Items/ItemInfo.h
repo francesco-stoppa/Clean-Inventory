@@ -2,14 +2,14 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
-#include "InventorySystem/Items/ItemTypeEnum.h" 
+#include "InventorySystem/Items/ItemTypeEnum.h" /*
 #include "ModifiersSystem/Components/ModifierDispatcher.h"
-#include "ModifiersSystem/Data/ModifierBase.h"
+#include "ModifiersSystem/Data/ModifierBase.h"*/
 #include "ItemInfo.generated.h"
 
 /* A data resource that I use to be able to define a game object. */
 UCLASS()
-class TBO02_API UItemInfo : public UPrimaryDataAsset
+class CLEAN_INVENTORY_API UItemInfo : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 	
@@ -40,11 +40,11 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float moveItemTime = 0.0f;
-	
+	/*
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<UModifierBase*> Modifiers;
+	TArray<UModifierBase*> Modifiers;*/
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	void UseItem(class AGenericCharacter* Target);
-	virtual void UseItem_Implementation(class AGenericCharacter* Target);
+	void UseItem(/*class AGenericCharacter* Target*/);
+	virtual void UseItem_Implementation(/*class AGenericCharacter* Target*/);
 };
