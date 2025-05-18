@@ -1,4 +1,4 @@
-﻿#include "InventorySystem/Inventory/InventoryBase.h"
+﻿#include "Clean_Inventory/Public/InventorySystem/ActorComponents/InventoryBase.h"
 #include "InventorySystem/Items/ItemInfo.h" 
 #include "InventorySystem/Items/ListToStortItems.h" 
 

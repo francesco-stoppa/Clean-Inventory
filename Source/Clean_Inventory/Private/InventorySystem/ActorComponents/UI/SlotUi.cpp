@@ -1,10 +1,10 @@
-#include "InventorySystem/Inventory/UI/SlotUi.h"
+#include "Clean_Inventory/Public/InventorySystem/ActorComponents/UI/SlotUi.h"
 #include "CharacterLogic/PlayerCharacter.h"
 #include "Components/Button.h"
 #include "Components/Image.h"
 #include "Runtime/AdvancedWidgets/Public/Components/RadialSlider.h"
 #include "Components/TextBlock.h"
-#include "InventorySystem/Inventory/ManageInventorySlots.h"
+#include "Clean_Inventory/Public/InventorySystem/ActorComponents/ManageInventorySlots.h"
 
 /*
 WHAT IT DOES:

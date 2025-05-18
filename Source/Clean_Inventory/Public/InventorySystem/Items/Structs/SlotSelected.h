@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "CoreMinimal.h"
-#include "InventorySystem/Inventory/InventoryBase.h"
+#include "Clean_Inventory/Public/InventorySystem/ActorComponents/InventoryBase.h"
 #include "SlotSelected.generated.h"
 
 /* struct that I use to define a slot in my inventory */

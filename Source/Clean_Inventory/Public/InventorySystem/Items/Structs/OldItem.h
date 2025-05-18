@@ -5,7 +5,7 @@
 #include "Item.generated.h"
 
 USTRUCT(BlueprintType)
-struct FItem 
+struct FOldItem 
 {
 	GENERATED_BODY()
 

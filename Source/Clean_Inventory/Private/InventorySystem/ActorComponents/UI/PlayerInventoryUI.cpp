@@ -1,7 +1,7 @@
-#include "InventorySystem/Inventory/UI/PlayerInventoryUI.h"
+#include "Clean_Inventory/Public/InventorySystem/ActorComponents/UI/PlayerInventoryUI.h"
 #include "CharacterLogic/PlayerCharacter.h"
 #include "Components/Button.h"
-#include "InventorySystem/Inventory/ManageInventorySlots.h"
+#include "Clean_Inventory/Public/InventorySystem/ActorComponents/ManageInventorySlots.h"
 
 /*
 WHAT IT DOES:

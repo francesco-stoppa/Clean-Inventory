@@ -11,7 +11,7 @@ struct FRandomicItem
 	GENERATED_BODY()
 	
 	UPROPERTY(EditAnywhere, Category = "Item")
-	FItem item;
+	FOldItem item;
 	UPROPERTY(EditAnywhere, Category = "Item", meta = (UIMin = 1, UIMax = 100, ClampMin = 1, ClampMax = 100, Units = "Percent"))
 	int spawnRate = 100;
 };

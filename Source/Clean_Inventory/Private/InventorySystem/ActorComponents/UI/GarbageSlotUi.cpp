@@ -1,8 +1,8 @@
-﻿#include "InventorySystem/Inventory/UI/GarbageSlotUi.h"
+﻿#include "Clean_Inventory/Public/InventorySystem/ActorComponents/UI/GarbageSlotUi.h"
 #include "CharacterLogic/PlayerCharacter.h"
 #include "Components/Button.h"
 #include "Components/Image.h"
-#include "InventorySystem/Inventory/ManageInventorySlots.h"
+#include "Clean_Inventory/Public/InventorySystem/ActorComponents/ManageInventorySlots.h"
 
 void UGarbageSlotUi::NativeConstruct()
 {
