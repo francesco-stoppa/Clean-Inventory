@@ -1,66 +1,75 @@
 ﻿#pragma once
 
 #include "CoreMinimal.h"
-#include "InventorySystem/Items/Structs/SlotSelected.h"
 #include "Components/ActorComponent.h"
-#include "ManageInventorySlots.generated.h"
-/*
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FSlotUpdateSignature, int, slotId, UInventoryBase*, slotInventory, bool, isMovingTheItem, bool, isSwitching);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOpenCloseInventorySignature, bool, inventoryIsOpen);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMoveSlotSignature, int, slotToLoad);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSlotUsedSignature, UItemInfo*, itemUsed);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FTooltipUpdateSignature, UInventoryBase*, inventory, int, index);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSelectSlotSignature, bool, selectOneSlot);
-*/
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class CLEAN_INVENTORY_API UManageInventorySlots : public UActorComponent
+#include "Clean_Inventory/Public/InventorySystem/ActorComponents/GenericInventory.h"
+#include "ManageInventory.generated.h"
+
+USTRUCT(BlueprintType)
+struct FSlotSelected
 {
 	GENERATED_BODY()
 
-public:/*
-	UPROPERTY(BlueprintAssignable, Category = "Inventory")
-	FSlotUpdateSignature onChangeSlotUiDelegate;
-	UPROPERTY(BlueprintAssignable, Category = "Inventory")
-	FOpenCloseInventorySignature onChangeInventoryUiDelegate;
-	UPROPERTY(BlueprintAssignable, Category = "Inventory")
-	FMoveSlotSignature onMoveSlotUiDelegate;
-	UPROPERTY(BlueprintAssignable, Category = "Inventory")
-	FSlotUsedSignature onItemUsed;
-	UPROPERTY(BlueprintAssignable, Category = "Inventory")
-	FSelectSlotSignature onSelecSlot;
+	UPROPERTY(Category = "Slot")
+	int32 Id;
+	UPROPERTY(Category = "Slot")
+	TWeakObjectPtr<UGenericInventory> Inventory;
 
-	UPROPERTY(BlueprintAssignable, Category = "Inventory")
-	FTooltipUpdateSignature onTooltipUpdateDelegate;*/
+	// Empty
+	FSlotSelected() :
+	Id(-1),
+	Inventory(nullptr) {}
+	
+	// Create
+	FSlotSelected(int32 NewId, TWeakObjectPtr<UGenericInventory> NewInventory) :
+	Id(NewId),
+	Inventory(NewInventory) {}
+};
+
+UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+class CLEAN_INVENTORY_API UManageInventory: public UGenericInventory
+{
+	GENERATED_BODY()
+	
+	// Fields
+public:
 protected:
 private:
-	// Timer variables
-	FTimerHandle MyTimerHandle;
-	/*
-	UPROPERTY(EditAnywhere, Category = "Inventory",  meta = (UIMin = 0.01f))
-	float switchItemTimer =0.01f;
-	UPROPERTY(EditAnywhere, Category = "Inventory",  meta = (UIMin = 0))
-	float sortInventoryTimer;*/
-
-private:
-	// UInventoryBase* playerInventory = nullptr;
 	UPROPERTY(EditAnywhere, Category = "Inventory")
-	UInventoryBase* otherInventory = nullptr;
+	float HoldTime;
+	UPROPERTY(VisibleAnywhere, Category = "Inventory")
+	FSlotSelected Selection;
+	/*UPROPERTY(VisibleAnywhere, Category = "Inventory")
+	bool bIsOpen = false;*/
+	TWeakObjectPtr<UGenericInventory> ChestInventory = nullptr;
+	// FTimerHandle TimerHandle;
 
-	// Slot Selected in UI
-	FSlotSelected slotSelected = FSlotSelected(); // i only need the <<id>> 
-	FSlotSelected secondSlotSelected = FSlotSelected();
-
-	// UI
-	bool inventoryOpen = false; // show inv
-	int BombardiroCrocodilo = -1; // we can also call it AddAllItemCurrentIndex
-	//construct
+	// Constructors
 public:
 protected:
 private:
-	// InventoryTimesMultiplier
-	//methods
+
+	// Methods
 public:
-	UFUNCTION(BlueprintCallable, Category = "InventoryManager")
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void SelectSlot(int32 id, TWeakObjectPtr<UGenericInventory> Inventory);
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void RevertSelection() { Selection = FSlotSelected(); }
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void SwitchSlot(FSlotSelected FirstSelection, FSlotSelected SecondCoordinates);
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void UseSlot();
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	bool AddItem(FItem ItemToAdd); // if false = inv full
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void CloseInventory();
+protected:
+private:
+	
+};
+
+/*
+ *UFUNCTION(BlueprintCallable, Category = "InventoryManager")
 	void SelectSlot(int index, UInventoryBase* inventory);
 	UFUNCTION(BlueprintCallable, Category = "InventoryManager")
 	void RevertSelection();
@@ -108,7 +117,7 @@ public:
 		return itemSelected;
 	}
 
-	FTimerHandle GetMyTimerHandle() { return MyTimerHandle; }*/
+	FTimerHandle GetMyTimerHandle() { return MyTimerHandle; }
 
 
 		// UI
@@ -121,7 +130,7 @@ protected:
 	
 private:
 	void EmptySlot(FSlotSelected item);
-/*
+
 	// Switch Functions
 	void PlayTimerSwitchSlot();
 	void  SwitchSlots(FSlotSelected firstSlot, FSlotSelected secondSlot);
@@ -139,5 +148,4 @@ private:
 	// UI
 	void LoadUi(FSlotSelected slot)
 	{ onChangeSlotUiDelegate.Broadcast(slot.index, slot.inventory, false, false); }*/
-};
 

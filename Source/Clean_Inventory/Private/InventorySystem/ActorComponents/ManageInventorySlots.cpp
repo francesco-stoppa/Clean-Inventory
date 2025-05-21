@@ -166,7 +166,8 @@ WHAT IT DOES:
 - Two slots (one slot to copy and other where it paste).
 WHAT DOES IT DO:
 1. Replace the slot with the other. */
-void UManageInventorySlots::ReplaceSlot(FSlotSelected slot, FSlotSelected slotToReplace) { slotToReplace.inventory->inventory.Insert(ConvertSlotToItem(slot), slotToReplace.index); }
+void UManageInventorySlots::ReplaceSlot(FSlotSelected slot, FSlotSelected slotToReplace)
+{ slotToReplace.inventory->inventory.Insert(ConvertSlotToItem(slot), slotToReplace.index); }
 /*
 WHAT IT DOES:
 - A slot.

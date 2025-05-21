@@ -7,6 +7,7 @@
 UENUM(BlueprintType)
 enum class EItemType : uint8
 {
+	Empty,
 	Default,
 	Consumable,
 	QuestItem
@@ -35,15 +36,16 @@ public:
 	TObjectPtr<UTexture2D> AssetThumbnail;
 
 	// Constructor -----------------------------------------------------------------------------------------------------
-	// Base
+	// Empty
 	FItem() :
-	Name(TEXT("Default")),
-	Description(TEXT("...")), 
-	ItemType(EItemType::Default),
-	MaxAmount(1),
+	Name(TEXT("Empty")),
+	Description(TEXT("")), 
+	ItemType(EItemType::Empty),
+	MaxAmount(0),
 	CurrentAmount(0),
 	ItemTimeToUseIt(0.f),
 	AssetThumbnail(nullptr) {}
+	
 	// By values
 	FItem(FName NewName, const FText& NewDescription, EItemType NewItemType, int32 NewMaxAmount, int32 NewCurrentAmount, float NewItemTimeToUseIt, const TObjectPtr<class UTexture2D>& NewAssetThumbnail) :
 	Name(NewName),
@@ -53,8 +55,27 @@ public:
 	CurrentAmount(NewCurrentAmount),
 	ItemTimeToUseIt(NewItemTimeToUseIt),
 	AssetThumbnail(NewAssetThumbnail) {}
+
 	// From a pointer
 	static FItem FromPointer(const UItemInfo* Source)
+	{
+		FItem NewItem;
+		
+		if (Source)
+		{
+			NewItem.Name = Source->Name;
+			NewItem.Description = Source->Description;
+			NewItem.ItemType = Source->ItemType;
+			NewItem.MaxAmount = Source->MaxAmount;
+			NewItem.CurrentAmount = Source->CurrentAmount;
+			NewItem.ItemTimeToUseIt = Source->ItemTimeToUseIt;
+			NewItem.AssetThumbnail = Source->AssetThumbnail;
+		}
+		return NewItem;
+	}
+	
+	// From a pointer
+	static FItem CopyItem(const FItem* Source)
 	{
 		FItem NewItem;
 		

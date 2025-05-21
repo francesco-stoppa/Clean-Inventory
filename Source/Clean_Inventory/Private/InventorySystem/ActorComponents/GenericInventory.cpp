@@ -1,7 +1,7 @@
 ﻿#include "Clean_Inventory/Public/InventorySystem/ActorComponents/GenericInventory.h"
-#include "InventorySystem/Structs/Item.h" 
+#include "InventorySystem/Structs/Item.h"
 
-void UGenericInventory::FillSlots()
+void UGenericInventory::FillSlots() // when i use it? i need to do it
 {
 	int32 startCount = 0;
 	if (!ItemList.IsEmpty())
@@ -12,20 +12,31 @@ void UGenericInventory::FillSlots()
 			ItemList.Add(FItem());
 }
 
-// Setter
-void UGenericInventory::SetItem(int32 id, FItem Item) // doesn't have an amount
-{ ItemList[id] = Item; }
+void UGenericInventory::SetItem(int32 Id, FItem Item) // doesn't have an amount
+{ ItemList[Id] = Item; }
 
-/*
-*void UInventoryBase::DeleteEmptyItemFromTheList()
+FItem UGenericInventory::GetItem(int32 Id)
 {
-	if (!inventory.IsEmpty())
-		for (int i = inventory.Num()-1; i > -1; i--)
-			if(inventory[i].item == nullptr && i >= quickSlots)// >=
-				inventory.RemoveAt(i);
+	return ItemList[Id];
 }
 
-void UInventoryBase::Sort() // I need to fix the comments (after the last code update)
+int32 UGenericInventory::GetFirstEmptyId()
+{
+	if (ItemList.IsEmpty())
+	{
+		return -1; // crush 
+	}
+	for (int32 i = ItemList.Num()-1; i > -1; i--)
+	{
+		FItem CurrentItem = ItemList[i];
+
+		if (CurrentItem.ItemType == EItemType::Empty)
+			return i;
+	}
+	return -1; // crush
+}
+
+/* void UInventoryBase::Sort() // I need to fix the comments (after the last code update)
 {
 	if (itemsOrder!=nullptr) 
 		if (!itemsOrder->sortList.IsEmpty())
@@ -71,6 +82,5 @@ void UInventoryBase::Sort() // I need to fix the comments (after the last code u
 			// UI vv
 			EventStart();
 		}
-}
-*/
+} */
 
