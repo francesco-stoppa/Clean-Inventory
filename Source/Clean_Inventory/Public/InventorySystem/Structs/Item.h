@@ -4,7 +4,6 @@
 #include "InventorySystem/Items/ItemInfo.h"
 #include "Item.generated.h"
 
-
 UENUM(BlueprintType)
 enum class EItemType : uint8
 {
@@ -29,7 +28,7 @@ public:
 	UPROPERTY(Category = "Item",  meta = (UIMin = 1, UIClampMin = 1))
 	int32 MaxAmount = 1;
 	UPROPERTY(Category = "Item",  meta = (UIMin = 0, UIClampMin = 0))
-	int32 CurrentAmount = 1;
+	int32 CurrentAmount = 0;
 	UPROPERTY(Category = "Item")
 	float ItemTimeToUseIt = 0.0f;
 	UPROPERTY(Category = "Item")
@@ -42,10 +41,10 @@ public:
 	Description(TEXT("...")), 
 	ItemType(EItemType::Default),
 	MaxAmount(1),
-	CurrentAmount(1),
+	CurrentAmount(0),
 	ItemTimeToUseIt(0.f),
 	AssetThumbnail(nullptr) {}
-	// By values)
+	// By values
 	FItem(FName NewName, const FText& NewDescription, EItemType NewItemType, int32 NewMaxAmount, int32 NewCurrentAmount, float NewItemTimeToUseIt, const TObjectPtr<class UTexture2D>& NewAssetThumbnail) :
 	Name(NewName),
     Description(NewDescription),

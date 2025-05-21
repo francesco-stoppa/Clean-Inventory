@@ -13,7 +13,7 @@ class CLEAN_INVENTORY_API UGenericInventory : public UActorComponent
 	// Fields
 public:
 protected:
-	UPROPERTY(VisibleAnywhere, Category = "Inventory")
+	UPROPERTY(EditAnywhere, Category = "Inventory")
 	TArray<FItem> ItemList = TArray<FItem>();
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	int32 MaxItemNumber;
@@ -31,14 +31,18 @@ protected:
 	void FillSlots();
 	
 	// Getter
-	UFUNCTION(BlueprintPure, Category = "Inventory")
+	UFUNCTION(BlueprintPure, Category = "Inventory") // serve ?
 	int32 GetMaxItemNumber() const {return MaxItemNumber; }
-	UFUNCTION(BlueprintPure, Category = "Inventory")
-	FItem* GetItem(int index) { return &ItemList[index]; }
+	UFUNCTION(BlueprintPure, Category = "Inventory") // why i need it? maybe is bettere only the asset pointer
+	FItem* GetItem(int32 id) { return &ItemList[id]; }
 	
 	// Setter
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
-	void SetItem(int index, FItem* item); // needs to be define
+	void SetItem(int32 id, FItem Item); // needs to be define
+	/*UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void Sort(); // maybe i need sort too
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void DeleteEmptyItemFromTheList();*/ // maybe
 private:
 	
 };
