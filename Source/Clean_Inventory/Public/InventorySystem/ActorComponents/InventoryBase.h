@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "InventorySystem/Items/Structs/Item.h"
+//#include "InventorySystem/Items/Structs/Item.h"
 #include "InventoryBase.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSortSlotSignature, bool, slotSlots);
@@ -50,10 +50,10 @@ public:
 	int GetMaxSlots() {return maxSlots; }
 	UFUNCTION(BlueprintPure, Category = "Inventory")
 	int GetQuickSlots() {return quickSlots-1; }
-	UFUNCTION(BlueprintPure, Category = "Inventory")
-	UItemInfo* GetItem(int index) { return inventory[index].item; }
-	UFUNCTION(BlueprintPure, Category = "Inventory")
-	int GetItemAmount(int index) { return inventory[index].amount; }
+	//UFUNCTION(BlueprintPure, Category = "Inventory")
+	//UItemInfo* GetItem(int index) { return inventory[index].item; }
+	//UFUNCTION(BlueprintPure, Category = "Inventory")
+	//int GetItemAmount(int index) { return inventory[index].amount; }
 	UFUNCTION(BlueprintPure, Category = "Inventory")
 	int GetEmptySlots();
 	UFUNCTION(BlueprintPure, Category = "Inventory")

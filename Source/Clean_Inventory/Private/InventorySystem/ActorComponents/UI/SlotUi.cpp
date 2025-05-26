@@ -1,5 +1,5 @@
 #include "Clean_Inventory/Public/InventorySystem/ActorComponents/UI/SlotUi.h"
-#include "CharacterLogic/PlayerCharacter.h"
+//#include "CharacterLogic/PlayerCharacter.h"
 #include "Components/Button.h"
 #include "Components/Image.h"
 #include "Runtime/AdvancedWidgets/Public/Components/RadialSlider.h"
@@ -7,10 +7,7 @@
 #include "Clean_Inventory/Public/InventorySystem/ActorComponents/ManageInventorySlots.h"
 
 /*
-WHAT IT DOES:
-1. Find the <UInventoryBase> and binds the event or gives error.
-2. Find the <UManageInventorySlots> (and its button) and binds the event or gives error.
-3. Hide the selection of the object. */
+
 void USlotUi::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -51,11 +48,6 @@ selection->SetVisibility(ESlateVisibility::Hidden);
 timerSlider->SetVisibility(ESlateVisibility::Hidden);
 }
 
-/*
-WHAT IT DOES:
-1. I check the inventory can be seen in the UI.
-2. Turn on the selection on the Slot selected on the UI
-	and set the slot in <ManageInventorySlots>. */
 void USlotUi::SelectSlots()
 {	// 1.
 	if (inventoryManager->GetInventoryOpen())
@@ -66,11 +58,7 @@ void USlotUi::SelectSlots()
 				inventoryManager->SelectSlot(id, inventory);	
 			}
 }
-/*
-WHAT IT DOES:
-1. Check if the <id> of the slot exist in the inventory.
-2. Based on its amount set the image and the text on UI.
-3. Hide the selection of the object. */
+
 void USlotUi::ShowSlot()
 {
 	if (isPlayer)
@@ -335,5 +323,5 @@ void USlotUi::MouseOver()
 		inventory = inventoryManager->GetEnemyInventory();
 
 	inventoryManager->MouseOver(inventory, id);
-}
+}*/
 

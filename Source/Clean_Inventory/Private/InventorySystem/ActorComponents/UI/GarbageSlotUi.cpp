@@ -1,9 +1,9 @@
 ﻿#include "Clean_Inventory/Public/InventorySystem/ActorComponents/UI/GarbageSlotUi.h"
-#include "CharacterLogic/PlayerCharacter.h"
+//#include "CharacterLogic/PlayerCharacter.h"
 #include "Components/Button.h"
 #include "Components/Image.h"
 #include "Clean_Inventory/Public/InventorySystem/ActorComponents/ManageInventorySlots.h"
-
+/*
 void UGarbageSlotUi::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -36,5 +36,5 @@ void UGarbageSlotUi::OnSelectionChanged(bool selectOneSlot)
 	else
 		selection->SetVisibility(ESlateVisibility::visible);*/ // occhio che "visible"
 
-}
+//}
 

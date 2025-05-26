@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "InventorySystem/Items/ItemInfo.h"
 #include "Item.generated.h"
-
+/*
 UENUM(BlueprintType)
 enum class EItemType : uint8
 {
@@ -11,7 +11,7 @@ enum class EItemType : uint8
 	Default,
 	Consumable,
 	QuestItem
-};
+};*/
 
 USTRUCT(BlueprintType)
 struct FItem
@@ -20,37 +20,37 @@ struct FItem
 
 	// Variables
 public:
-	UPROPERTY(Category = "Item")
+	UPROPERTY()
 	FName Name;
-	UPROPERTY(Category = "Item")
+	UPROPERTY()
 	FText Description;
-	UPROPERTY(Category = "Item")
-	EItemType ItemType;
-	UPROPERTY(Category = "Item",  meta = (UIMin = 1, UIClampMin = 1))
+	//UPROPERTY()
+	//EItemType ItemType;
+	UPROPERTY(meta = (UIMin = 1, UIClampMin = 1))
 	int32 MaxAmount = 1;
-	UPROPERTY(Category = "Item",  meta = (UIMin = 0, UIClampMin = 0))
+	UPROPERTY(meta = (UIMin = 0, UIClampMin = 0))
 	int32 CurrentAmount = 0;
-	UPROPERTY(Category = "Item")
+	UPROPERTY()
 	float ItemTimeToUseIt = 0.0f;
-	UPROPERTY(Category = "Item")
+	UPROPERTY()
 	TObjectPtr<UTexture2D> AssetThumbnail;
 
 	// Constructor -----------------------------------------------------------------------------------------------------
 	// Empty
 	FItem() :
 	Name(TEXT("Empty")),
-	Description(TEXT("")), 
-	ItemType(EItemType::Empty),
+	Description(TEXT("none")), 
+	//ItemType(EItemType::Empty),
 	MaxAmount(0),
 	CurrentAmount(0),
 	ItemTimeToUseIt(0.f),
 	AssetThumbnail(nullptr) {}
 	
 	// By values
-	FItem(FName NewName, const FText& NewDescription, EItemType NewItemType, int32 NewMaxAmount, int32 NewCurrentAmount, float NewItemTimeToUseIt, const TObjectPtr<class UTexture2D>& NewAssetThumbnail) :
+	FItem(FName NewName, const FText& NewDescription, /*EItemType NewItemType,*/ int32 NewMaxAmount, int32 NewCurrentAmount, float NewItemTimeToUseIt, const TObjectPtr<class UTexture2D>& NewAssetThumbnail) :
 	Name(NewName),
     Description(NewDescription),
-    ItemType(NewItemType),
+    //ItemType(NewItemType),
 	MaxAmount(NewMaxAmount),
 	CurrentAmount(NewCurrentAmount),
 	ItemTimeToUseIt(NewItemTimeToUseIt),
@@ -65,7 +65,7 @@ public:
 		{
 			NewItem.Name = Source->Name;
 			NewItem.Description = Source->Description;
-			NewItem.ItemType = Source->ItemType;
+			//NewItem.ItemType = Source->ItemType;
 			NewItem.MaxAmount = Source->MaxAmount;
 			NewItem.CurrentAmount = Source->CurrentAmount;
 			NewItem.ItemTimeToUseIt = Source->ItemTimeToUseIt;
@@ -83,7 +83,7 @@ public:
 		{
 			NewItem.Name = Source->Name;
 			NewItem.Description = Source->Description;
-			NewItem.ItemType = Source->ItemType;
+			//NewItem.ItemType = Source->ItemType;
 			NewItem.MaxAmount = Source->MaxAmount;
 			NewItem.CurrentAmount = Source->CurrentAmount;
 			NewItem.ItemTimeToUseIt = Source->ItemTimeToUseIt;

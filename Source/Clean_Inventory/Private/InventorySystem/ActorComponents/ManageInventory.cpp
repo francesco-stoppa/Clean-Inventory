@@ -57,15 +57,15 @@ bool UManageInventory::AddItem(FItem ItemToAdd)
 		int32 Id = GetFirstEmptyId();
 		if (Id > 0)
 		{
-			// Do stuff
+			ItemList[Id] = ItemToAdd;
 			return true;
-
 		}
 		else
 		{
 			return false;
 		}
 	}
+	return false;
 }
 
 

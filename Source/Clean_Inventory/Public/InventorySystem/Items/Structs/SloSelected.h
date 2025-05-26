@@ -2,11 +2,11 @@
 
 #include "CoreMinimal.h"
 #include "Clean_Inventory/Public/InventorySystem/ActorComponents/InventoryBase.h"
-#include "SlotSelected.generated.h"
+#include "SloSelected.generated.h"
 
 /* struct that I use to define a slot in my inventory */
 USTRUCT(BlueprintType)
-struct FSlotSelected
+struct FSloSelected
 {
 	GENERATED_BODY()
 	

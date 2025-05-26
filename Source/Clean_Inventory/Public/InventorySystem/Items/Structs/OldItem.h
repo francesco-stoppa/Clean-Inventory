@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "InventorySystem/Items/ItemInfo.h"
-#include "Item.generated.h"
+#include "OldItem.generated.h"
 
 USTRUCT(BlueprintType)
 struct FOldItem 

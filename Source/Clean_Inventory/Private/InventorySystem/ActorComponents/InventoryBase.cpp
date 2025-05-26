@@ -12,10 +12,10 @@ void UInventoryBase::FillSlots()
 	int startCount = 0;
 	if (!inventory.IsEmpty())
 		startCount = inventory.Num();
-	
+	/*
 	if (startCount < maxSlots)
 		for (int i = startCount; i < maxSlots; i++)
-			inventory.Add(FItem());
+			inventory.Add(FItem());*/
 }
 /*
 WHAT IT DOES:
@@ -24,11 +24,11 @@ NOTE:
 Function I use to not sort empty slots or fill an inventory (<- ManageInventorySlot).
 */
 void UInventoryBase::DeleteEmptyItemFromTheList()
-{
+{/*
 	if (!inventory.IsEmpty())
 		for (int i = inventory.Num()-1; i > -1; i--)
 			if(inventory[i].item == nullptr && i >= quickSlots)// >=
-				inventory.RemoveAt(i);
+				inventory.RemoveAt(i);*/
 }
 
 // Getter
@@ -41,7 +41,7 @@ WHAT IT DOES:
  */
 int UInventoryBase::GetEmptySlots()
 {			// 1.
-	int occupiteSlots = 0;
+	int occupiteSlots = 0;/*
 	if (!inventory.IsEmpty())
 	{		// 2.
 		for (auto itemInTheList : inventory)
@@ -59,12 +59,12 @@ int UInventoryBase::GetEmptySlots()
 		occupiteSlots = maxSlots - quickSlots;
 	
 	if(quickSlots == 0)
-		occupiteSlots = 0;
+		occupiteSlots = 0;*/
 	return occupiteSlots;
 }
 int UInventoryBase::GetSlotsOccupite()
 {			// 1.
-	int occupiteSlots = 0;
+	int occupiteSlots = 0;/*
 	if (!inventory.IsEmpty())
 	{
 		// 2.
@@ -72,7 +72,7 @@ int UInventoryBase::GetSlotsOccupite()
 			if (itemInTheList.item != nullptr)
 				occupiteSlots++;
 	}
-	
+	*/
 	return occupiteSlots;
 }
 
@@ -82,9 +82,9 @@ void UInventoryBase::SetItemAndAmount(int index, UItemInfo* item, int amount)
 	SetItem(index, item);
 	SetItemAmount(index, amount);
 }
-void UInventoryBase::SetItem(int index, UItemInfo* item) { inventory[index].item = item; }
+//void UInventoryBase::SetItem(int index, UItemInfo* item) { inventory[index].item = item; }
 void UInventoryBase::SetItemAmount(int index, int amount)
-{
+{/*
 	if (amount > 0)
 	{
 		if (amount >= GetItem(index)->maxAmount)
@@ -96,7 +96,7 @@ void UInventoryBase::SetItemAmount(int index, int amount)
 	{
 		inventory[index].amount = 0;
 		inventory[index].item = nullptr;
-	}
+	}*/
 }
 
 /* 
@@ -111,7 +111,7 @@ NOTE:
 If after this function the inventory has a staggered order, reselect "WHAT DOES IT NEED".
 */
 void UInventoryBase::Sort() // I need to fix the comments (after the last code update)
-{
+{/*
 	if (itemsOrder!=nullptr) 
 		if (!itemsOrder->sortList.IsEmpty())
 		{
@@ -155,6 +155,6 @@ void UInventoryBase::Sort() // I need to fix the comments (after the last code u
 			FillSlots();
 			// UI vv
 			EventStart();
-		}
+		}*/
 }
 

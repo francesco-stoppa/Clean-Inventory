@@ -10,9 +10,8 @@ struct FSlotSelected
 {
 	GENERATED_BODY()
 
-	UPROPERTY(Category = "Slot")
+
 	int32 Id;
-	UPROPERTY(Category = "Slot")
 	TWeakObjectPtr<UGenericInventory> Inventory;
 
 	// Empty
@@ -51,7 +50,7 @@ private:
 
 	// Methods
 public:
-	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	UFUNCTION(Category = "Inventory")
 	void SelectSlot(int32 id, TWeakObjectPtr<UGenericInventory> Inventory);
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	void RevertSelection() { Selection = FSlotSelected(); }
@@ -61,8 +60,8 @@ public:
 	void UseSlot();
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	bool AddItem(FItem ItemToAdd); // if false = inv full
-	UFUNCTION(BlueprintCallable, Category = "Inventory")
-	void CloseInventory();
+	/*UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void CloseInventory();*/
 protected:
 private:
 	

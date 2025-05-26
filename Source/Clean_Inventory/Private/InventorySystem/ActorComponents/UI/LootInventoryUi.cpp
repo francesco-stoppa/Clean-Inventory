@@ -1,12 +1,9 @@
 #include "Clean_Inventory/Public/InventorySystem/ActorComponents/UI/LootInventoryUi.h"
-#include "CharacterLogic/PlayerCharacter.h"
+//#include "CharacterLogic/PlayerCharacter.h"
 #include "Components/Button.h"
 #include "Clean_Inventory/Public/InventorySystem/ActorComponents/ManageInventorySlots.h"
 
 /*
-WHAT IT DOES:
-1. Search the player and its UComponents to bind the events.
-	a) Otherwise it gives errors. */
 void ULootInventoryUi::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -24,23 +21,13 @@ void ULootInventoryUi::NativeConstruct()
 		UE_LOG(LogTemp, Warning, TEXT("Error: <UManageInventorySlots> is missing..."));
 }
 
-/*
-WHAT IT DOES:
-1. On click <takeButton> call the function AddAllItems() from the script UInventoryManage. */
 void ULootInventoryUi::TakeAllSlots()
 {	// 1.
 	if (!GetWorld()->GetTimerManager().IsTimerActive(inventoryManager->GetMyTimerHandle()))
 		inventoryManager->AddAllItems();
 }
 
-/*
-WHAT IT NEEDS:
-- A bool.
-WHAT IT DOES:
-1. Chek if the enemy inventory is open (or exists).
-	a) if is open load the UI and set its visibility (to true).
-NOTE:
-- This function is automatichally call by the event OpenInventory(). */
+
 void ULootInventoryUi::ShowInventory(bool isOpen)
 {	// 1.
 	if (isOpen && inventoryManager->GetEnemyInventory() != nullptr)
@@ -51,5 +38,5 @@ void ULootInventoryUi::ShowInventory(bool isOpen)
 	else
 		this->SetVisibility(ESlateVisibility::Hidden);
 }
-
+*/
 

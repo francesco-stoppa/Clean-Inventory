@@ -14,8 +14,8 @@ public:
 protected:
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	TArray<struct FItem> ItemList = TArray<FItem>();
-	UPROPERTY(Category = "Inventory")
-	AActor* Owner; // mmmm...
+	/*UPROPERTY(Category = "Inventory")
+	AActor* Owner;*/
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	int32 MaxItemNumber;
 private:

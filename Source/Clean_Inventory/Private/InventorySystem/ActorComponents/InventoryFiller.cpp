@@ -33,7 +33,7 @@ void UInventoryFiller::GeneradeInventory()
 			if (result <= itemsToSpawn[i].spawnRate
 				&& inventory->GetMaxSlots() > bob)  // 4.  // To Test vv // FItem itemToAdd = FItem(itemsToSpawn[i].item);
 			{
-				inventory->inventory.Add(itemsToSpawn[i].item); // Add(itemToAdd)
+				//inventory->inventory.Add(itemsToSpawn[i].item); // Add(itemToAdd)
 
 			}
 		}

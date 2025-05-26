@@ -1,13 +1,13 @@
 ﻿#include "Clean_Inventory/Public/InventorySystem/ActorComponents/ManageInventorySlots.h"
 
-#include "CharacterLogic/GenericCharacter.h"
+//#include "CharacterLogic/GenericCharacter.h"//
 #include "Clean_Inventory/Public/InventorySystem/ActorComponents/InventoryBase.h"
 #include "InventorySystem/Items/ItemInfo.h"
 #include "InventorySystem/Items/AmmoItemInfo.h"
 
-#include "NiagaraFunctionLibrary.h"
+//#include "NiagaraFunctionLibrary.h"
 #include "Kismet/GameplayStatics.h"
-
+/*
 void UManageInventorySlots::BeginPlay()
 {
 	Super::BeginPlay();
@@ -23,15 +23,6 @@ void UManageInventorySlots::BeginPlay()
 	PlayTimerSort();
 	//OpenCloseInventoryUi(false); // TOTEST
 }
-
-/*
-WHAT IT NEEDS:
-- A INT (which represents the index of the object in its list).
-- The inventory of the item selected (its list).
-WHAT IT DOES:
-1. Check how many slots you have selected:
-	a) If is only one fill the first variable SlotSelected.
-	b) If there are another one (and they are form the playerInventory) Switch teir position. */
 void UManageInventorySlots::SelectSlot(int index, UInventoryBase* inventory)
 {// mod
 	if (!GetWorld()->GetTimerManager().IsTimerActive(MyTimerHandle))
@@ -69,9 +60,6 @@ void UManageInventorySlots::SelectSlot(int index, UInventoryBase* inventory)
 		}
 	}
 }
-/*
-WHAT IT DOES:
-1. Revert all the selection. */
 void UManageInventorySlots::RevertSelection()
 {
 	// UI
@@ -89,9 +77,6 @@ void UManageInventorySlots::RevertSelection()
 	onSelecSlot.Broadcast(false);
 	// addOneItem = true;
 }
-/* WHAT IT DOES:
-1. Check if the timer is set more than zero.
-2. Start the timer. */
 void UManageInventorySlots::PlayTimerSwitchSlot()
 {
 	if (switchItemTimer <= 0)
@@ -103,10 +88,6 @@ void UManageInventorySlots::PlayTimerSwitchSlot()
 	onChangeSlotUiDelegate.Broadcast(secondSlotSelected.index, secondSlotSelected.inventory, true, true);
 	// onMoveSlotUiDelegate.Broadcast(false);
 }
-/* WHAT IT DOES:
-1. Reset the timer.
-2. Switch the items (call the function)
-3. Revert the all the selection. */
 void UManageInventorySlots::EndTimerSwitch()
 {
 	GetWorld()->GetTimerManager().ClearTimer(MyTimerHandle);
@@ -140,9 +121,7 @@ void UManageInventorySlots::EndTimerSwitch()
 	else
 		SwitchSlots(slotSelected, secondSlotSelected);
 	RevertSelection();
-}
-/* WHAT IT DOES:
-1. Check the bigger index (base on that change their position). */
+	}
 void UManageInventorySlots::SwitchSlots(FSlotSelected firstSlot, FSlotSelected secondSlot)
 {
 	if (firstSlot.index != secondSlot.index)
@@ -161,30 +140,11 @@ void UManageInventorySlots::SwitchSlots(FSlotSelected firstSlot, FSlotSelected s
 		DeleteSlot(secondSlot);
 	}
 }
-/*
-WHAT IT DOES:
-- Two slots (one slot to copy and other where it paste).
-WHAT DOES IT DO:
-1. Replace the slot with the other. */
 void UManageInventorySlots::ReplaceSlot(FSlotSelected slot, FSlotSelected slotToReplace)
 { slotToReplace.inventory->inventory.Insert(ConvertSlotToItem(slot), slotToReplace.index); }
-/*
-WHAT IT DOES:
-- A slot.
-WHAT DOES IT DO:
-1. Delete that slot form the list. */
-void UManageInventorySlots::DeleteSlot(FSlotSelected slot) { slot.inventory->inventory.RemoveAt(slot.index); }
 
-/*
-WHAT IT NEEDS:
-- A slot
-WHAT DOES IT DO:
-1. Reduce the amount slot.
-2. Check if the amaunt of the object is more than one:
-	a) Otherwise empty the slot.
-3. Revert the selection.
-NOTE:
-Not finish. */
+void UManageInventorySlots::DeleteSlot(FSlotSelected slot) { slot.inventory->inventory.RemoveAt(slot.index) }
+
 void UManageInventorySlots::UseSlot(FSlotSelected slot)
 {
 	if (slot.inventory != nullptr)
@@ -224,21 +184,9 @@ void UManageInventorySlots::UseSlot(FSlotSelected slot)
 	else
 		UE_LOG(LogTemp, Warning, TEXT("Slot/Inventory missing..."));
 }
-/*
-WHAT IT NEED:
-- A slot
-WHAT IT DOES:
-1. Empty the slot selected. */
+
 void UManageInventorySlots::EmptySlot(FSlotSelected slotToFree) { slotToFree.inventory->SetItemAmount(slotToFree.index, 0); }
 
-/*
-WHAT IT DOES:
-1. Checks every item in the inventory (besides the playerInventory).
-2. Set the variable for multiple items to move.
-3. Removes empty spots.
-4. Adds the first item in the PlayTimerMoveItem.
-5. Start the timer.
-6. If the timer is ended fill the delete item with empty slot. */
 void UManageInventorySlots::AddAllItems()
 {
 	BombardiroCrocodilo++;
@@ -268,11 +216,6 @@ void UManageInventorySlots::AddAllItems()
 		BombardiroCrocodilo =-1;
 	}
 }
-/*
-WHAT IT DOES:
-1. Check if the item exist.
-2. Check if the timer is set more than zero.
-3. Start the timer. */
 void UManageInventorySlots::PlayTimerMoveItem()
 {
 	float timerTime = 0;
@@ -288,11 +231,6 @@ void UManageInventorySlots::PlayTimerMoveItem()
 	else
 		GetWorld()->GetTimerManager().SetTimer(MyTimerHandle, this, &UManageInventorySlots::EndTimerAddItem, timerTime * InventoryTimesMultiplier, false);
 }
-/*
-WHAT IT DOES:
-1. Reset the timer.
-2. Add the item in the right slot (call the function)
-3. Check if the function is ended. */
 void UManageInventorySlots::EndTimerAddItem()
 {
 	GetWorld()->GetTimerManager().ClearTimer(MyTimerHandle);
@@ -312,16 +250,7 @@ void UManageInventorySlots::EndTimerAddItem()
 	}
 }
 
-/*
-WHAT IT NEEDS:
-- A slot
-WHAT IT DOES:
-1. I check all the slots in my inventory.
-2. I check if there is a slot with the item I need to add:
-	a) If I find it, I calculate the quantity to add.
-	b) I add the quantity and see if there is any left.
-3. if there are still amounts of the item (or I didn't find a slot with the same item):
-	a) I add the item to the first free slot.*/
+
 void UManageInventorySlots::AddInTheRightSlot(FSlotSelected slot)
 {
 	
@@ -382,15 +311,6 @@ void UManageInventorySlots::AddInTheRightSlot(FSlotSelected slot)
 	else
 		onMoveSlotUiDelegate.Broadcast(-1);
 }
-/*
-WHAT IT NEEDS:
-- A slot.
-WHAT IT DOES:
-1. Check if there is an empty spot.
-2. Fill the empty spot with the one requested.
-3. Clear the spot coordinate.
-NOTE:
-I made another check just to be sure. */
 void UManageInventorySlots::AddItemInTheFirstFreeSlot(FSlotSelected slot)
 {
 	if (playerInventory->GetEmptySlots() > 0)
@@ -424,10 +344,6 @@ void UManageInventorySlots::AddItemInTheFirstFreeSlot(FSlotSelected slot)
 	}
 }
 
-/*
-WHAT IT DOES:
-1. Check if the timer is set more than zero.
-2. Start the timer. */
 void UManageInventorySlots::PlayTimerSort()
 {
 	if (sortInventoryTimer <= 0)
@@ -435,10 +351,6 @@ void UManageInventorySlots::PlayTimerSort()
 	else
 		GetWorld()->GetTimerManager().SetTimer(MyTimerHandle, this, &UManageInventorySlots::EndTimerSort, switchItemTimer * InventoryTimesMultiplier, false);
 }
-/* WHAT IT DOES:
-1. Reset the timer.
-2. Sort the items (call the function)
-3. Revert the all the selection. */
 void UManageInventorySlots::EndTimerSort()
 {
 	GetWorld()->GetTimerManager().ClearTimer(MyTimerHandle);
@@ -446,10 +358,7 @@ void UManageInventorySlots::EndTimerSort()
 	// chiamare l'evento per la UI qui oppure dentro player<UInventoryBase> (forse meglio dentro <UInventoryBase>)
 	RevertSelection();
 }
-/*
-WHAT IT DOES:
-1. Check if the timer is set more than zero.
-2. Start the timer. */
+
 void UManageInventorySlots::PlayTimerUseItem()
 {
 	if (ConvertSlotToItem(slotSelected).item != nullptr)
@@ -464,26 +373,18 @@ void UManageInventorySlots::PlayTimerUseItem()
 	else
 		UE_LOG(LogTemp, Warning, TEXT("Error"));
 }
-/* WHAT IT DOES:
-1. Reset the timer.
-2. Use the items (call the function)
-3. Revert the all the selection. */
 void UManageInventorySlots::EndTimerUse()
 {
 	GetWorld()->GetTimerManager().ClearTimer(MyTimerHandle);
 	UseSlot(slotSelected);
 }
 
-/* WHAT IT DOES:
-1. Reset the timer.
-2. Fill the other list with empty slots (call the function)
-3. Revert the all the selection. */
 void UManageInventorySlots::StopAllTimer()
 {
 	GetWorld()->GetTimerManager().ClearTimer(MyTimerHandle);
-	/* ho toccato anche qui
+	ho toccato anche qui
 	if (otherInventory != nullptr)
-		otherInventory->FillSlots();*/
+		otherInventory->FillSlots();
 	addOneItem = true; // >>>>
 	BombardiroCrocodilo = -1;
 	onMoveSlotUiDelegate.Broadcast(-1);
@@ -566,4 +467,4 @@ void UManageInventorySlots::RemoveItem()
 	slotSelected.inventory->SetItemAmount(slotSelected.index, 0);
 	RevertSelection();
 }
-
+*/

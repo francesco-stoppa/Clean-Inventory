@@ -1,10 +1,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ItemTypeEnum.generated.h"
+#include "OldItemTypeEnum.generated.h"
 
 UENUM(BlueprintType)
-enum class EItemType : uint8
+enum class EOldItemType : uint8
 {
 	Stim,
 	Heal,
