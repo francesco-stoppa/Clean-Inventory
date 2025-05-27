@@ -23,7 +23,7 @@ public:
 	UPROPERTY()
 	FName Name;
 	UPROPERTY()
-	FText Description;
+	FName Description;
 	//UPROPERTY()
 	//EItemType ItemType;
 	UPROPERTY(meta = (UIMin = 1, UIClampMin = 1))
@@ -39,7 +39,7 @@ public:
 	// Empty
 	FItem() :
 	Name(TEXT("Empty")),
-	Description(TEXT("none")), 
+	Description(TEXT("None")), 
 	//ItemType(EItemType::Empty),
 	MaxAmount(0),
 	CurrentAmount(0),
@@ -47,7 +47,7 @@ public:
 	AssetThumbnail(nullptr) {}
 	
 	// By values
-	FItem(FName NewName, const FText& NewDescription, /*EItemType NewItemType,*/ int32 NewMaxAmount, int32 NewCurrentAmount, float NewItemTimeToUseIt, const TObjectPtr<class UTexture2D>& NewAssetThumbnail) :
+	FItem(FName NewName, FName NewDescription, /*EItemType NewItemType,*/ int32 NewMaxAmount, int32 NewCurrentAmount, float NewItemTimeToUseIt, const TObjectPtr<class UTexture2D>& NewAssetThumbnail) :
 	Name(NewName),
     Description(NewDescription),
     //ItemType(NewItemType),

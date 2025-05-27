@@ -30,8 +30,8 @@ int32 UGenericInventory::GetFirstEmptyId()
 	{
 		FItem CurrentItem = ItemList[i];
 
-		if (CurrentItem.ItemType == EItemType::Empty)
-			return i;
+		/*if (CurrentItem.ItemType == EItemType::Empty)
+			return i;*/
 	}
 	return -1; // crush
 }

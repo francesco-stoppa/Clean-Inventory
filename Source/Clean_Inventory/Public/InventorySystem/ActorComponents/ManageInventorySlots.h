@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "CoreMinimal.h"
-#include "InventorySystem/Items/Structs/SlotSelected.h"
+#include "InventorySystem/Items/Structs/SloSelected.h"
 #include "Components/ActorComponent.h"
 #include "ManageInventorySlots.generated.h"
 /*
@@ -47,8 +47,8 @@ private:
 	UInventoryBase* otherInventory = nullptr;
 
 	// Slot Selected in UI
-	FSlotSelected slotSelected = FSlotSelected(); // i only need the <<id>> 
-	FSlotSelected secondSlotSelected = FSlotSelected();
+	FSloSelected slotSelected = FSloSelected(); // i only need the <<id>> 
+	FSloSelected secondSlotSelected = FSloSelected();
 
 	// UI
 	bool inventoryOpen = false; // show inv

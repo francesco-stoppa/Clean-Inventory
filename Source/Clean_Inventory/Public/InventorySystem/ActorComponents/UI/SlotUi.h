@@ -4,7 +4,6 @@
 #include "Blueprint/UserWidget.h"
 #include "SlotUi.generated.h"
 
-/* *This UWidget is bind by the event in the UInventoryBase and the UManageInventorySlots. */
 UCLASS()
 class CLEAN_INVENTORY_API USlotUi : public UUserWidget
 {
@@ -12,7 +11,7 @@ class CLEAN_INVENTORY_API USlotUi : public UUserWidget
 	// Fields
 public:
 protected:
-private:
+private:/*
 	UPROPERTY(EditAnywhere, Category = "UI", meta = (UIMin = 0, UIClampMin = 0))
 	int id;
 	UPROPERTY(EditAnywhere, Category = "UI")
@@ -110,5 +109,5 @@ private:
 
 	UFUNCTION()
 
-	void LoadEmptySlot(int slotToLoad);
+	void LoadEmptySlot(int slotToLoad);*/
 };

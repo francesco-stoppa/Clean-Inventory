@@ -21,7 +21,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
 	TObjectPtr<USoundBase> ItemSound;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
-	FText Description;
+	FName Description;
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
 	//EItemType ItemType;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item",  meta = (UIMin = 1, UIClampMin = 1))
