@@ -10,8 +10,9 @@ struct FSlotSelected
 {
 	GENERATED_BODY()
 
-
+	UPROPERTY()
 	int32 Id;
+	UPROPERTY()
 	TWeakObjectPtr<UGenericInventory> Inventory;
 
 	// Empty
@@ -25,7 +26,7 @@ struct FSlotSelected
 	Inventory(NewInventory) {}
 };
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class CLEAN_INVENTORY_API UManageInventory: public UGenericInventory
 {
 	GENERATED_BODY()
@@ -51,7 +52,7 @@ private:
 	// Methods
 public:
 	UFUNCTION(Category = "Inventory")
-	void SelectSlot(int32 id, TWeakObjectPtr<UGenericInventory> Inventory);
+	void SelectSlot(int32 Id, TWeakObjectPtr<UGenericInventory> Inventory);
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	void RevertSelection() { Selection = FSlotSelected(); }
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
@@ -60,91 +61,24 @@ public:
 	void UseSlot();
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	bool AddItem(FItem ItemToAdd); // if false = inv full
-	/*UFUNCTION(BlueprintCallable, Category = "Inventory")
-	void CloseInventory();*/
+
+	UFUNCTION(Category = "Inventory")
+	UTexture2D* GetSlotTexture(int32 Id, TWeakObjectPtr<UGenericInventory> Inventory);
+	
+	UFUNCTION(Category = "Inventory")
+	TWeakObjectPtr<UGenericInventory> GetCloseInventory()
+	{
+		if (ChestInventory != nullptr)
+		{
+			return ChestInventory;
+		}
+		else
+		{
+			return nullptr;
+		}
+	}
 protected:
 private:
 	
 };
-
-/*
- *UFUNCTION(BlueprintCallable, Category = "InventoryManager")
-	void SelectSlot(int index, UInventoryBase* inventory);
-	UFUNCTION(BlueprintCallable, Category = "InventoryManager")
-	void RevertSelection();
-	
-	UFUNCTION(BlueprintCallable, Category = "InventoryManager")
-	void UseSlot(FSlotSelected slot);
-
-	// void PlayTimerSort();
-	UFUNCTION(BlueprintCallable, Category = "InventoryManager")
-	void PlayTimerUseItem(); // let me see
-	UFUNCTION(BlueprintCallable, Category = "InventoryManager")
-	void StopAllTimer();
-
-	// per ora
-	UFUNCTION(BlueprintCallable, Category = "InventoryManager")
-	void UseQuickSlot(int slotToUse);
-	UFUNCTION(BlueprintCallable, Category = "InventoryManager")
-	void AddItemInSlotSelectedTimer(); // AddItemInSlotSelected()
-
-	
-	// Setter
-	UFUNCTION(BlueprintCallable, Category = "InventoryManager")
-	void SetEnemyInventory(UInventoryBase* inventoryToOpen) { otherInventory = inventoryToOpen; }
-	
-
-	// UInventoryBase* GetPlayerInventory() { return playerInventory; }
-	// UInventoryBase* GetEnemyInventory() { return otherInventory; }
- 
-	
-	UFUNCTION(BlueprintPure, Category = "InventoryManager")
-	bool GetInventoryOpen() { return inventoryOpen; }
-	/*
-	UFUNCTION(BlueprintCallable, Category = "InventoryManager")
-	void OpenCloseInventoryUi(bool isOpen);
-
-	
-	// x cri
-	UFUNCTION(BlueprintCallable, Category = "InventoryManager")
-	void  GiveItem(FItem itemToAdd);
-	
-	UFUNCTION(BlueprintCallable, Category = "InventoryManager")
-	FItem GetItemSelected()
-	{
-		FItem itemSelected = FItem(slotSelected.inventory->GetItem(slotSelected.index), slotSelected.inventory->GetItemAmount(slotSelected.index));
-		return itemSelected;
-	}
-
-	FTimerHandle GetMyTimerHandle() { return MyTimerHandle; }
-
-
-		// UI
-	UFUNCTION(BlueprintCallable)
-	void MouseOver(UInventoryBase* inv, int index);
-	UFUNCTION(BlueprintCallable)
-	void RemoveItem();
-protected:
-	virtual void BeginPlay() override;
-	
-private:
-	void EmptySlot(FSlotSelected item);
-
-	// Switch Functions
-	void PlayTimerSwitchSlot();
-	void  SwitchSlots(FSlotSelected firstSlot, FSlotSelected secondSlot);
-	void  ReplaceSlot(FSlotSelected slot, FSlotSelected slotToReplace);
-	void  DeleteSlot(FSlotSelected itemToRemove);
-	void EndTimerSwitch();
-	
-	void EndTimerSort();
-	void EndTimerUse();
-	
-	// Getter
-	FItem ConvertSlotToItem(FSlotSelected slotToConvert)
-	{ return  FItem(slotToConvert.inventory->GetItem(slotToConvert.index), slotToConvert.inventory->GetItemAmount(slotToConvert.index)); }
-
-	// UI
-	void LoadUi(FSlotSelected slot)
-	{ onChangeSlotUiDelegate.Broadcast(slot.index, slot.inventory, false, false); }*/
 

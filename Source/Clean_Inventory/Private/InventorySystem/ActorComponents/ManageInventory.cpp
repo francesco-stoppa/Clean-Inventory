@@ -48,24 +48,31 @@ void UManageInventory::UseSlot()
 
 bool UManageInventory::AddItem(FItem ItemToAdd)
 {
-	if (ItemList.Num() == MaxItemNumber)
-	{
-		return false;
-	}
-	else
+	bool bToReturn = false;
+	if (ItemList.Num() != MaxItemNumber)
 	{
 		int32 Id = GetFirstEmptyId();
 		if (Id > 0)
 		{
 			ItemList[Id] = ItemToAdd;
-			return true;
-		}
-		else
-		{
-			return false;
+			bToReturn =  true;
 		}
 	}
-//	return false;
+	return bToReturn;
+}
+
+UTexture2D* UManageInventory::GetSlotTexture(int32 Id, TWeakObjectPtr<UGenericInventory> Inventory)
+{
+	UTexture2D* TextureToReturn = nullptr;
+	if (Inventory != nullptr)
+	{
+		FItem Item = Inventory->GetItem(Id);
+		//if (Item.ItemType == EItemType::Empty)
+		//{
+			TextureToReturn = Item.AssetThumbnail;
+		//}
+	}
+	return TextureToReturn;
 }
 
 
