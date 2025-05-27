@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Clean_Inventory/Public/InventorySystem/ActorComponents/GenericInventory.h"
+#include "InventorySystem/ActorComponents/GenericInventory.h"
 #include "ManageInventory.generated.h"
 
 USTRUCT(BlueprintType)

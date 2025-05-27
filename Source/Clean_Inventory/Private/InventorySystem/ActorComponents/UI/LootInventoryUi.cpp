@@ -1,7 +1,7 @@
-#include "Clean_Inventory/Public/InventorySystem/ActorComponents/UI/LootInventoryUi.h"
+#include "InventorySystem/ActorComponents/UI/LootInventoryUi.h"
 //#include "CharacterLogic/PlayerCharacter.h"
 #include "Components/Button.h"
-#include "Clean_Inventory/Public/InventorySystem/ActorComponents/ManageInventorySlots.h"
+#include "InventorySystem/ActorComponents/ManageInventorySlots.h"
 
 /*
 void ULootInventoryUi::NativeConstruct()

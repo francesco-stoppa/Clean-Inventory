@@ -1,5 +1,5 @@
-#include "Clean_Inventory/Public/InventorySystem/ActorComponents/InventoryFiller.h"
-#include "Clean_Inventory/Public/InventorySystem/ActorComponents/InventoryBase.h"
+#include "InventorySystem/ActorComponents/InventoryFiller.h"
+#include "InventorySystem/ActorComponents/InventoryBase.h"
 
 void UInventoryFiller::BeginPlay()
 {

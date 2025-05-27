@@ -32,7 +32,7 @@ public:
 	int32 CurrentAmount = 0;
 
 	// ho bisogno di questo (?)
-	UFUNCTION(BlueprintCallable, Category = "Item")
-	void UseItem(/*class AGenericCharacter* Target*/);
-	virtual void UseItem_Implementation(/*class AGenericCharacter* Target*/);
+	//UFUNCTION(BlueprintCallable, Category = "Item")
+	//void UseItem(/*class AGenericCharacter* Target*/);
+	//virtual void UseItem_Implementation(/*class AGenericCharacter* Target*/);
 };

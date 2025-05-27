@@ -1,5 +1,5 @@
-﻿#include "Clean_Inventory/Public/InventorySystem/ActorComponents/ManageInventory.h"
-#include "Clean_Inventory/Public/InventorySystem/Structs/Item.h"
+﻿#include "InventorySystem/ActorComponents/ManageInventory.h"
+#include "InventorySystem/Structs/Item.h"
 
 void UManageInventory::SelectSlot(int32 Id, TWeakObjectPtr<UGenericInventory> Inventory)
 {
@@ -65,7 +65,7 @@ bool UManageInventory::AddItem(FItem ItemToAdd)
 			return false;
 		}
 	}
-	return false;
+//	return false;
 }
 
 
