@@ -14,11 +14,13 @@ class REFACTORING_API UGenericInventory : public UActorComponent
 public:
 protected:
 	UPROPERTY(EditAnywhere, Category = "Inventory")
-	TArray<struct FItem> ItemList = TArray<FItem>();
+	TArray<UItemInfo*> ItemList = TArray<UItemInfo*>();
 	/*UPROPERTY(Category = "Inventory")
 	AActor* Owner;*/
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
 	int32 MaxItemNumber;
+	UPROPERTY()
+	bool bIsPlayer = false;
 private:
 	
 	// Constructors
@@ -34,14 +36,16 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	int32 GetFirstEmptyId();
 	UFUNCTION(BlueprintPure, Category = "Inventory") // why i need it? maybe is bettere only the asset pointer
-	FItem GetItem(int32 Id);
+	UItemInfo* GetItem(int32 Id);
 	
 	// Setter
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
-	void SetItem(int32 Id, FItem Item); // needs to be define
+	void SetItem(int32 Id, UItemInfo* Item); // needs to be define
 	UFUNCTION(BlueprintCallable, Category = "Inventory") // serve ?
 	void SetMaxItemNumber(int32 MaxItemNumber_);
 protected:
+	UFUNCTION()
+	void BeginPlay() override;
 	UFUNCTION(Category = "Inventory")
 	void FillSlots();
 	/*UFUNCTION(BlueprintCallable, Category = "Inventory")

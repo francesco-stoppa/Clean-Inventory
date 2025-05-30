@@ -1,12 +1,13 @@
 ﻿#include "InventorySystem/ActorComponents/ManageInventory.h"
-#include "InventorySystem/Structs/Item.h"
+// #include "InventorySystem/Structs/Item.h"
 
-void UManageInventory::SelectSlot(int32 Id, TWeakObjectPtr<UGenericInventory> Inventory)
+void UManageInventory::SelectSlot(int32 Id, UGenericInventory* Inventory)
 {
-	if (Inventory != nullptr)
+	if (Inventory == nullptr)
 	{
 		return;
 	}
+	
 	FSlotSelected NewSelection = FSlotSelected(Id, Inventory);
 	if (Selection.Inventory == nullptr)
 	{
@@ -21,15 +22,26 @@ void UManageInventory::SelectSlot(int32 Id, TWeakObjectPtr<UGenericInventory> In
 		else
 		{
 			SwitchSlot(Selection, NewSelection);
+			RevertSelection(false);
 		}
 	}
+}
+void UManageInventory::RevertSelection(bool LoadUI)
+{
+	if (LoadUI)
+	{
+		onSLoadSlotDelegate.Broadcast(Selection.Id, Selection.Inventory);
+	}
+	Selection = FSlotSelected();
 }
 
 void UManageInventory::SwitchSlot(FSlotSelected FirstSelection, FSlotSelected SecondCoordinates)
 {
-	FItem SecondItem = SecondCoordinates.Inventory->GetItem(SecondCoordinates.Id);
+	UItemInfo* SecondItem = SecondCoordinates.Inventory->GetItem(SecondCoordinates.Id);
 	SecondCoordinates.Inventory->SetItem(SecondCoordinates.Id, FirstSelection.Inventory->GetItem(FirstSelection.Id));
 	FirstSelection.Inventory->SetItem(FirstSelection.Id, SecondItem);
+	
+	onSwitchSlotsInventoryDelegate.Broadcast(FirstSelection.Id, FirstSelection.Inventory,SecondCoordinates.Id, SecondCoordinates.Inventory);
 }
 
 void UManageInventory::UseSlot()
@@ -42,7 +54,7 @@ void UManageInventory::UseSlot()
 	if (Selection.Inventory == this) // use obj only in your inv
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Item Used"));
-		Selection.Inventory->SetItem(Selection.Id, FItem());
+		DropSlot();
 	}
 }
 
@@ -56,15 +68,12 @@ void UManageInventory::DropSlot()
 
 	if (Selection.Inventory == this)
 	{
-		Selection.Inventory->SetItem(Selection.Id, FItem());
+		Selection.Inventory->SetItem(Selection.Id, nullptr);
 	}
-	else
-	{
-		RevertSelection();
-	}
+	RevertSelection();
 }
 
-bool UManageInventory::AddItem(FItem ItemToAdd)
+bool UManageInventory::AddItem(UItemInfo* ItemToAdd)
 {
 	bool bToReturn = false;
 	if (ItemList.Num() != MaxItemNumber)
@@ -79,16 +88,16 @@ bool UManageInventory::AddItem(FItem ItemToAdd)
 	return bToReturn;
 }
 
-UTexture2D* UManageInventory::GetSlotTexture(int32 Id, TWeakObjectPtr<UGenericInventory> Inventory)
+UTexture2D* UManageInventory::GetSlotTexture(int32 Id, UGenericInventory* Inventory) const
 {
 	UTexture2D* TextureToReturn = nullptr;
 	if (Inventory != nullptr)
 	{
-		FItem Item = Inventory->GetItem(Id);
-		//if (Item.ItemType == EItemType::Empty)
-		//{
-		TextureToReturn = Item.AssetThumbnail;
-		//}
+		UItemInfo* Item = Inventory->GetItem(Id);
+		if (Item)
+		{
+			TextureToReturn = Item->AssetThumbnail;
+		}
 	}
 	return TextureToReturn;
 }

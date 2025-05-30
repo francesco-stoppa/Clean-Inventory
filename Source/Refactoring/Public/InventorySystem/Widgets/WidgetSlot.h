@@ -21,9 +21,13 @@ private:
 	
 	UPROPERTY()
 	class UTexture2D* AssetThumbnail;
+	
+	UPROPERTY()
+	class UTexture2D* MissingAssetThumbnail;
 
 	UPROPERTY()
 	class UGenericInventory* Inventory;
+	// class UGenericInventory* Inventory;
 
 	
 	UPROPERTY(meta = (BindWidget))
@@ -44,13 +48,17 @@ public:
 	void SetPlayerSlot(bool bIsPlayer_) { bIsPlayer = bIsPlayer_; }
 
 	UFUNCTION(Category = "UI")
+	void OverSlot();
+	UFUNCTION(Category = "UI")
 	void SelectSlot();
 	UFUNCTION(Category = "UI")
 	void RevertSelectedSlot();
 	
 	UFUNCTION(Category = "UI")
 	void ShowSlot();
-
+	UFUNCTION(Category = "UI")
+	void SetInventory(UGenericInventory* NewInventory) { Inventory = NewInventory; }
+	
 protected:
 	virtual void NativeConstruct() override;
 	

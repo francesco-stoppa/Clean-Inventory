@@ -1,6 +1,12 @@
 ﻿#include "InventorySystem/ActorComponents/GenericInventory.h"
-#include "InventorySystem/Structs/Item.h"
+//#include "InventorySystem/Structs/Item.h"
 
+void UGenericInventory::BeginPlay()
+{
+	Super::BeginPlay();
+
+	bIsPlayer = true;
+}
 void UGenericInventory::FillSlots() // when i use it? i need to do it
 {
 	int32 startCount = 0;
@@ -13,17 +19,17 @@ void UGenericInventory::FillSlots() // when i use it? i need to do it
 	{
 		for (int32 i = startCount; i <= MaxItemNumber; i++)
 		{
-			ItemList.Add(FItem());
+			ItemList.Add(nullptr);
 		}
 	}
 }
 
-void UGenericInventory::SetItem(int32 Id, FItem Item) // doesn't have an amount
+void UGenericInventory::SetItem(int32 Id, UItemInfo* Item) // doesn't have an amount
 {
 	ItemList[Id] = Item;
 }
 
-FItem UGenericInventory::GetItem(int32 Id)
+UItemInfo* UGenericInventory::GetItem(int32 Id)
 {
 	return ItemList[Id];
 }
@@ -36,7 +42,7 @@ int32 UGenericInventory::GetFirstEmptyId()
 	}
 	for (int32 i = ItemList.Num()-1; i > -1; i--)
 	{
-		FItem CurrentItem = ItemList[i];
+		UItemInfo* CurrentItem = ItemList[i];
 
 		/*if (CurrentItem.ItemType == EItemType::Empty)
 			return i;*/

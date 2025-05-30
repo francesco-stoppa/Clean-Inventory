@@ -15,7 +15,7 @@ class REFACTORING_API UWidgetInventory : public UUserWidget
 public:
 protected:
 private:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Inventory")
 	bool bIsPlayer = false;
 	
 	// Constructors
@@ -24,6 +24,9 @@ protected:
 private:
 	UPROPERTY()
 	class UManageInventory* PlayerInventory;
+	
+	UPROPERTY()
+	class UGenericInventory* Inventory = nullptr;
 	
 	UPROPERTY(Meta = (BindWidget))
 	TSoftObjectPtr<UUniformGridPanel> GridPanel;
@@ -37,18 +40,24 @@ private:
 	int32 GridColumn  = 4;
 	
 	UPROPERTY()
-	int32 i  = -1;
+	int32 SlotCreated  = -1;
 	
 	// Methods
 public:
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	void ShowInventory(bool bIsOpen);
-	
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void SwitchSlot(int FirstIdToLoad, UGenericInventory* FirstInventory, int SecondIdToLoad, UGenericInventory* SecondInventory);
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void LoadSlot(int IdToLoad, UGenericInventory* InventoryToLoad);
+
 protected:
 	virtual void NativeConstruct() override;
 
 private:
 	UFUNCTION(Category = "Inventory")
 	void CreateInventory();
+	UFUNCTION(Category = "Inventory")
+	void LoadInventory(bool bIsChest = false);
 	
 };

@@ -24,14 +24,26 @@ void UWidgetSlot::NativeConstruct()
 			Inventory = PlayerInventory->GetChestInventory();
 		}
 	}
+
+	MissingAssetThumbnail = Cast<UTexture2D>(ItemImage->GetBrush().GetResourceObject()); 
 }
 
+
+void UWidgetSlot::OverSlot()
+{
+	if (PlayerInventory != nullptr && Inventory != nullptr)
+	{
+		SlotClicked->SetVisibility(ESlateVisibility::Visible);
+		SlotClicked->SetRenderOpacity(0.45f);
+	}
+}
 
 void UWidgetSlot::SelectSlot()
 {
 	if (PlayerInventory != nullptr && Inventory != nullptr)
 	{
 		SlotClicked->SetVisibility(ESlateVisibility::Visible);
+		SlotClicked->SetRenderOpacity(0.6f);
 		PlayerInventory->SelectSlot(Id, Inventory);
 	}
 }
@@ -43,20 +55,17 @@ void UWidgetSlot::RevertSelectedSlot()
 
 void UWidgetSlot::ShowSlot()
 {
-	if (AssetThumbnail != PlayerInventory->GetSlotTexture(Id, Inventory))
-	{
-		AssetThumbnail = PlayerInventory->GetSlotTexture(Id, Inventory);
-	}
-
-	ItemImage->SetBrushFromTexture(AssetThumbnail);
+	AssetThumbnail = PlayerInventory->GetSlotTexture(Id, Inventory);
 	
 	if (AssetThumbnail == nullptr)
 	{
-		ItemImage->SetVisibility(ESlateVisibility::Hidden);
+		ItemImage->SetBrushFromTexture(MissingAssetThumbnail);
 	}
 	else
 	{
-		ItemImage->SetVisibility(ESlateVisibility::Visible);
+		ItemImage->SetBrushFromTexture(AssetThumbnail);
 	}
+	
+	SlotClicked->SetVisibility(ESlateVisibility::Hidden);
 }
 

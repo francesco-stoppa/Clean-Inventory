@@ -11,6 +11,8 @@ void UWidgetInventory::NativeConstruct()
 	if (PlayerInventory)
 	{
 		PlayerInventory->onOpenInventoryDelegate.AddDynamic(this, &UWidgetInventory::ShowInventory);
+		PlayerInventory->onSwitchSlotsInventoryDelegate.AddDynamic(this, &UWidgetInventory::SwitchSlot);
+		PlayerInventory->onSLoadSlotDelegate.AddDynamic(this, &UWidgetInventory::LoadSlot);
 		CreateInventory();
 	}
 	
@@ -27,31 +29,113 @@ void UWidgetInventory::CreateInventory()
 			WidgetSlot = CreateWidget<UWidgetSlot>(this, SlotClass);
 			if (WidgetSlot)
 			{
-				i++;
-				WidgetSlot->SetId(i);
+				SlotCreated++;
+				WidgetSlot->SetId(SlotCreated);
 				WidgetSlot->SetPlayerSlot(bIsPlayer);
 				GridPanel->AddChildToUniformGrid(WidgetSlot, y, x);
 				Slots.Add(WidgetSlot);
 			}
 		}
 	}
-	PlayerInventory->SetMaxItemNumber(i);
+	
+	if (bIsPlayer)
+	{
+		PlayerInventory->SetMaxItemNumber(SlotCreated);
+	}
 }
 
 void UWidgetInventory::ShowInventory(bool bIsOpen)
 {
 	if (bIsOpen)
 	{
-		this->SetVisibility(ESlateVisibility::Visible);
-		
-		for (int32 n = 0; n < Slots.Num(); n++)
+		if (bIsPlayer)
 		{
-			Slots[n]->RevertSelectedSlot();
+			LoadInventory();
+		}
+		else
+		{
+			Inventory = PlayerInventory->GetChestInventory();
+			if (Inventory != nullptr)
+			{
+				LoadInventory(true);
+			}
 		}
 	}
 	else
 	{
+		for (int32 n = 0; n < Slots.Num(); n++)
+		{
+			Slots[n]->RevertSelectedSlot();
+		}
 		this->SetVisibility(ESlateVisibility::Hidden);
+		Inventory = nullptr;
+	}
+}
+
+void UWidgetInventory::LoadInventory(bool bIsChest)
+{
+	this->SetVisibility(ESlateVisibility::Visible);
+	for (int32 n = 0; n < Slots.Num(); n++)
+	{
+		if (bIsChest)
+		{
+			Slots[n]->SetInventory(Inventory);
+		}
+		Slots[n]->ShowSlot();
+	}
+}
+
+void UWidgetInventory::SwitchSlot(int FirstIdToLoad, UGenericInventory* FirstInventory, int SecondIdToLoad, UGenericInventory* SecondInventory)
+{
+	if (FirstInventory != nullptr && SecondInventory != nullptr && PlayerInventory != nullptr)
+	{
+		if (bIsPlayer)
+		{
+			if (FirstInventory == PlayerInventory || SecondInventory == PlayerInventory)
+			{
+				Slots[FirstIdToLoad]->ShowSlot();
+				// Slots[FirstIdToLoad]->RevertSelectedSlot();
+			}/*
+			if (SecondInventory == PlayerInventory)
+			{
+				Slots[SecondIdToLoad]->ShowSlot();
+				// Slots[SecondIdToLoad]->RevertSelectedSlot();
+			}*/
+		}
+		else
+		{
+			if (FirstInventory == Inventory)
+			{
+				Slots[FirstIdToLoad]->ShowSlot();
+				// Slots[FirstIdToLoad]->RevertSelectedSlot();
+			}
+			if (SecondInventory == Inventory)
+			{
+				Slots[SecondIdToLoad]->ShowSlot();
+				// Slots[SecondIdToLoad]->RevertSelectedSlot();
+			}
+		}
+	}
+}
+
+void UWidgetInventory::LoadSlot(int IdToLoad, UGenericInventory* InventoryToLoad)
+{
+	if (InventoryToLoad != nullptr && PlayerInventory != nullptr)
+	{
+		if (bIsPlayer)
+		{
+			if (InventoryToLoad == PlayerInventory)
+			{
+				Slots[IdToLoad]->ShowSlot();
+			}
+		}
+		else
+		{
+			if (InventoryToLoad == Inventory)
+			{
+				Slots[IdToLoad]->ShowSlot();
+			}
+		}
 	}
 }
 
