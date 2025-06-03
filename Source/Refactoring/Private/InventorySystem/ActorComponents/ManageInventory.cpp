@@ -1,6 +1,10 @@
 ﻿#include "InventorySystem/ActorComponents/ManageInventory.h"
 // #include "InventorySystem/Structs/Item.h"
 
+// what i need = switch (to debug) - muoversi nell'inventario (to debug) - info (to debug) 
+// today = crafting con interazioni con l'inventario Select and craft
+// Pick up system = prendere tutti gli oggetti che entrano nel trigger salvarseli in una lista e poi al momento dell'interazione calcolare tutti gli oggetti e calcolare il più vicino (sarebbe meglio l'oggeto nella giusta distanza e angolazione) poi interagisci con quello.
+
 void UManageInventory::SelectSlot(int32 Id, UGenericInventory* Inventory)
 {
 	if (Inventory == nullptr)
@@ -17,7 +21,8 @@ void UManageInventory::SelectSlot(int32 Id, UGenericInventory* Inventory)
 	{
 		if (Selection.Inventory == Inventory && Selection.Id == Id)
 		{
-			RevertSelection();
+			// RevertSelection();
+			ReadItemInfo();
 		}
 		else
 		{
@@ -54,7 +59,7 @@ void UManageInventory::UseSlot()
 	if (Selection.Inventory == this) // use obj only in your inv
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Item Used"));
-		DropSlot();
+		DropSlot(); // for now
 	}
 }
 
@@ -66,9 +71,9 @@ void UManageInventory::DropSlot()
 		return;
 	}
 
-	if (Selection.Inventory == this)
+	if (Selection.Inventory == this) // puoi droppare solo oggetti dal tuo inventario
 	{
-		Selection.Inventory->SetItem(Selection.Id, nullptr);
+		SetItem(Selection.Id, nullptr);
 	}
 	RevertSelection();
 }
@@ -122,3 +127,12 @@ bool UManageInventory::ShowInventory()
 	return bIsInventoryOpen;
 }
 
+void UManageInventory::ReadItemInfo()
+{
+	UItemInfo* Item = GetItem(Selection.Id);
+
+	FName ItemName = Item->Name;
+	FText ItemDescription = Item->Description;
+	
+	onItemInfoDelegate.Broadcast(ItemName, ItemDescription);
+}

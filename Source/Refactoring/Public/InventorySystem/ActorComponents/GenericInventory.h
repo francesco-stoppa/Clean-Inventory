@@ -22,6 +22,10 @@ protected:
 	UPROPERTY()
 	bool bIsPlayer = false;
 private:
+	UPROPERTY(Category = "Inventory")
+	int32 GridRow = 0;
+	UPROPERTY(Category = "Inventory")
+	int32 GridColumn  = 0;
 	
 	// Constructors
 public:
@@ -43,6 +47,11 @@ public:
 	void SetItem(int32 Id, UItemInfo* Item); // needs to be define
 	UFUNCTION(BlueprintCallable, Category = "Inventory") // serve ?
 	void SetMaxItemNumber(int32 MaxItemNumber_);
+	
+	int32 GetColumn() const { return GridColumn; }
+	int32 GetRow() const { return GridRow; }
+	void SetCoulmn(int32 Column) { GridColumn = Column; }
+	
 protected:
 	UFUNCTION()
 	void BeginPlay() override;

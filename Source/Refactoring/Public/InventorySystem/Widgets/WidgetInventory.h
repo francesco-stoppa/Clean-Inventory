@@ -41,6 +41,12 @@ private:
 	
 	UPROPERTY()
 	int32 SlotCreated  = -1;
+	UPROPERTY()
+	bool bIsMoreInventoryOpen = false;
+	
+	// Add vv
+	UPROPERTY(VisibleAnywhere, Category = "Inventory")
+	int32 CurrentId;
 	
 	// Methods
 public:
@@ -50,6 +56,9 @@ public:
 	void SwitchSlot(int FirstIdToLoad, UGenericInventory* FirstInventory, int SecondIdToLoad, UGenericInventory* SecondInventory);
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	void LoadSlot(int IdToLoad, UGenericInventory* InventoryToLoad);
+	
+	// Add vv
+	void CursorOver(EDirections Direction);
 
 protected:
 	virtual void NativeConstruct() override;

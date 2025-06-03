@@ -8,6 +8,7 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOpenInventorySignature, bool, bIsInventoryOpen);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FSwitchSlotsSignature, int, FirstIdToLoad, UGenericInventory*, FirstInventory, int, SecondIdToLoad, UGenericInventory*, SecondInventory);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FLoadSlotSignature, int, IdToLoad, UGenericInventory*, InventoryToLoad);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FItemInfoSignature, FName, ItemName, FText, ItemDescription);
 
 USTRUCT(BlueprintType)
 struct FSlotSelected
@@ -41,6 +42,8 @@ public:
 	FSwitchSlotsSignature onSwitchSlotsInventoryDelegate;
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")
 	FLoadSlotSignature onSLoadSlotDelegate;
+	UPROPERTY(BlueprintAssignable, Category = "Inventory")
+	FItemInfoSignature onItemInfoDelegate;
 protected:
 private:
 	UPROPERTY(EditAnywhere, Category = "Inventory")
@@ -51,6 +54,7 @@ private:
 	class UGenericInventory* ChestInventory = nullptr;
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
 	bool bIsInventoryOpen = false;
+	
 	// Constructors
 public:
 protected:
@@ -92,6 +96,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	bool ShowInventory();
+	
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void ReadItemInfo();
+
 protected:
 private:
 

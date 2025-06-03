@@ -23,7 +23,7 @@ public:
 	UPROPERTY()
 	FName Name;
 	UPROPERTY()
-	FName Description;
+	FText Description;
 	//UPROPERTY()
 	//EItemType ItemType;
 private:
@@ -48,7 +48,7 @@ public:
 	AssetThumbnail(nullptr) {}
 	
 	// By values
-	FItem(FName NewName, FName NewDescription, /*EItemType NewItemType,*/ int32 NewMaxAmount, int32 NewCurrentAmount, float NewItemTimeToUseIt, const TObjectPtr<class UTexture2D>& NewAssetThumbnail) :
+	FItem(FName NewName, FText NewDescription, /*EItemType NewItemType,*/ int32 NewMaxAmount, int32 NewCurrentAmount, float NewItemTimeToUseIt, const TObjectPtr<class UTexture2D>& NewAssetThumbnail) :
 	Name(NewName),
     Description(NewDescription),
     //ItemType(NewItemType),
