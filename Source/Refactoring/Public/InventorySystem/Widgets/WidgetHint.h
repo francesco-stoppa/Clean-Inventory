@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "WidgetHint.h"
+#include "WidgetHint.generated.h"
 
 UCLASS()
 class REFACTORING_API UWidgetHint : public UUserWidget

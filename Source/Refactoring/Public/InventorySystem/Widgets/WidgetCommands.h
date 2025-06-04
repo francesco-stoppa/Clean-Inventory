@@ -2,6 +2,9 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/UniformGridPanel.h"
+#include "InventorySystem/Widgets/WidgetHint.h"
+#include "InventorySystem/Enum/EnumList.h"
 #include "WidgetCommands.generated.h"
 
 UCLASS()

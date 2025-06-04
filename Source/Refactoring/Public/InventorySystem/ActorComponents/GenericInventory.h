@@ -22,9 +22,9 @@ protected:
 	UPROPERTY()
 	bool bIsPlayer = false;
 private:
-	UPROPERTY(Category = "Inventory")
+	UPROPERTY()
 	int32 GridRow = 0;
-	UPROPERTY(Category = "Inventory")
+	UPROPERTY()
 	int32 GridColumn  = 0;
 	
 	// Constructors

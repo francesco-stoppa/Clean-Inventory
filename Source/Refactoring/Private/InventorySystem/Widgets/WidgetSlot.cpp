@@ -14,15 +14,7 @@ void UWidgetSlot::NativeConstruct()
 	if (PlayerInventory != nullptr)
 	{
 		SlotButton->OnClicked.AddUniqueDynamic(this, &ThisClass::SelectSlot);
-
-		if (bIsPlayer)
-		{
-			Inventory = PlayerInventory;
-		}
-		else
-		{
-			Inventory = PlayerInventory->GetChestInventory();
-		}
+		Inventory = PlayerInventory;
 	}
 
 	MissingAssetThumbnail = Cast<UTexture2D>(ItemImage->GetBrush().GetResourceObject()); 
@@ -35,6 +27,13 @@ void UWidgetSlot::OverSlot()
 	{
 		SlotClicked->SetVisibility(ESlateVisibility::Visible);
 		SlotClicked->SetRenderOpacity(0.45f);
+	}
+}
+void UWidgetSlot::NotOverSlot()
+{
+	if (PlayerInventory != nullptr && Inventory != nullptr)
+	{
+		SlotClicked->SetVisibility(ESlateVisibility::Hidden);
 	}
 }
 
@@ -55,7 +54,7 @@ void UWidgetSlot::RevertSelectedSlot()
 
 void UWidgetSlot::ShowSlot()
 {
-	AssetThumbnail = PlayerInventory->GetSlotTexture(Id, Inventory);
+	UTexture2D* AssetThumbnail = PlayerInventory->GetSlotTexture(Id, Inventory);
 	
 	if (AssetThumbnail == nullptr)
 	{

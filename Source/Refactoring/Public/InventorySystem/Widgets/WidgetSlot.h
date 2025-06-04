@@ -17,18 +17,15 @@ private:
 	int32 Id;
 	UPROPERTY(VisibleAnywhere, Category = "UI")
 	bool bIsPlayer = false;
-
-	
+	/*
 	UPROPERTY()
-	class UTexture2D* AssetThumbnail;
+	class UTexture2D* AssetThumbnail;*/
 	
 	UPROPERTY()
 	class UTexture2D* MissingAssetThumbnail;
 
 	UPROPERTY()
 	class UGenericInventory* Inventory;
-	// class UGenericInventory* Inventory;
-
 	
 	UPROPERTY(meta = (BindWidget))
 	class UButton* SlotButton;
@@ -49,6 +46,8 @@ public:
 
 	UFUNCTION(Category = "UI")
 	void OverSlot();
+	UFUNCTION(Category = "UI")
+	void NotOverSlot();
 	UFUNCTION(Category = "UI")
 	void SelectSlot();
 	UFUNCTION(Category = "UI")

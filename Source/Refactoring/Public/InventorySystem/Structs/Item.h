@@ -41,7 +41,7 @@ public:
 	// Empty
 	FItem() :
 	Name(TEXT("Empty")),
-	Description(TEXT("None")), 
+	Description(FText::FromString("None")), 
 	//ItemType(EItemType::Empty),
 	MaxAmount(0),
 	CurrentAmount(0),

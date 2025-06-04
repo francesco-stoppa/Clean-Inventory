@@ -4,6 +4,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/UniformGridPanel.h"
 #include "InventorySystem/Widgets/WidgetSlot.h"
+#include "InventorySystem/Enum/EnumList.h"
 #include "WidgetInventory.generated.h"
 
 UCLASS()
@@ -58,6 +59,7 @@ public:
 	void LoadSlot(int IdToLoad, UGenericInventory* InventoryToLoad);
 	
 	// Add vv
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	void CursorOver(EDirections Direction);
 
 protected:
@@ -67,6 +69,6 @@ private:
 	UFUNCTION(Category = "Inventory")
 	void CreateInventory();
 	UFUNCTION(Category = "Inventory")
-	void LoadInventory(bool bIsChest = false);
+	void LoadInventory(bool bIsPlayer_ = false);
 	
 };

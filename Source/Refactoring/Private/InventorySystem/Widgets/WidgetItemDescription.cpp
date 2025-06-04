@@ -24,8 +24,9 @@ void UWidgetItemDescription::OpenWidget(FName Name, FText Description)
 
 void UWidgetItemDescription::CloseWidget()
 {
-	this->SetVisibility(ESlateVisibility::Collapsed);
-	NameText->SetText(FText::FromString("Missing..."));
-	DescriptionText->SetText(FText::FromString("Missing..."));
+	if (GetVisibility() == ESlateVisibility::Visible)
+	{
+		this->SetVisibility(ESlateVisibility::Collapsed);
+	}
 }
 

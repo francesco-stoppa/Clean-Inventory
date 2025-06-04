@@ -13,35 +13,37 @@ void UWidgetInventory::NativeConstruct()
 	{
 		PlayerInventory->onOpenInventoryDelegate.AddDynamic(this, &UWidgetInventory::ShowInventory);
 		PlayerInventory->onSwitchSlotsInventoryDelegate.AddDynamic(this, &UWidgetInventory::SwitchSlot);
-		PlayerInventory->onSLoadSlotDelegate.AddDynamic(this, &UWidgetInventory::LoadSlot);
-		CreateInventory();
+		PlayerInventory->onLoadSlotDelegate.AddDynamic(this, &UWidgetInventory::LoadSlot);
 	}
-	
+	CreateInventory();
 	this->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void UWidgetInventory::CreateInventory()
 {
-	UWidgetSlot* WidgetSlot = nullptr;
-	for (int32 y = 0; y < GridRow; y++)
+	if (SlotClass != nullptr)
 	{
-		for (int32 x = 0; x < GridColumn; x++)
+		UWidgetSlot* WidgetSlot = nullptr;
+		for (int32 y = 0; y < GridRow; y++)
 		{
-			WidgetSlot = CreateWidget<UWidgetSlot>(this, SlotClass);
-			if (WidgetSlot)
+			for (int32 x = 0; x < GridColumn; x++)
 			{
-				SlotCreated++;
-				WidgetSlot->SetId(SlotCreated);
-				WidgetSlot->SetPlayerSlot(bIsPlayer);
-				GridPanel->AddChildToUniformGrid(WidgetSlot, y, x);
-				Slots.Add(WidgetSlot);
+				WidgetSlot = CreateWidget<UWidgetSlot>(this, SlotClass);
+				if (WidgetSlot)
+				{
+					SlotCreated++;
+					WidgetSlot->SetId(SlotCreated);
+					WidgetSlot->SetPlayerSlot(bIsPlayer);
+					GridPanel->AddChildToUniformGrid(WidgetSlot, y, x);
+					Slots.Add(WidgetSlot);
+				}
 			}
 		}
-	}
 	
-	if (bIsPlayer)
-	{
-		PlayerInventory->SetMaxItemNumber(SlotCreated);
+		if (bIsPlayer)
+		{
+			PlayerInventory->SetMaxItemNumber(SlotCreated);
+		}
 	}
 }
 
@@ -49,27 +51,20 @@ void UWidgetInventory::ShowInventory(bool bIsOpen)
 {
 	if (bIsOpen)
 	{
-		if (bIsPlayer)
+		Inventory = PlayerInventory->GetChestInventory();
+		if (Inventory != nullptr)
 		{
-			LoadInventory();
-			Inventory = PlayerInventory->GetChestInventory();
-			if (Inventory != nullptr)
-			{
-				bIsMoreInventoryOpen = true;
-			}
+			bIsMoreInventoryOpen = true;
+			
+			if (!bIsPlayer)
+				Inventory->SetMaxItemNumber(SlotCreated);
 		}
-		else
-		{
-			Inventory = PlayerInventory->GetChestInventory();
-			if (Inventory != nullptr)
-			{
-				if (Inventory->GetColumn() == 0)
-				{
-					Inventory->SetCoulmn(GridColumn);
-				}
-				LoadInventory(true);
-			}
-		}
+		LoadInventory(bIsPlayer);
+
+		
+		// Add vv
+		CurrentId = 0;
+		// CursorOver(EDirections::Default);
 	}
 	else
 	{
@@ -79,17 +74,21 @@ void UWidgetInventory::ShowInventory(bool bIsOpen)
 		}
 		this->SetVisibility(ESlateVisibility::Hidden);
 		Inventory = nullptr;
+		bIsMoreInventoryOpen = false;
 	}
 }
 
-void UWidgetInventory::LoadInventory(bool bIsChest)
+void UWidgetInventory::LoadInventory(bool bIsPlayer_)
 {
 	this->SetVisibility(ESlateVisibility::Visible);
 	for (int32 n = 0; n < Slots.Num(); n++)
 	{
-		if (bIsChest)
+		if (!bIsPlayer_)
 		{
-			Slots[n]->SetInventory(Inventory);
+			if (Inventory != nullptr)
+			{
+				Slots[n]->SetInventory(Inventory);
+			}
 		}
 		Slots[n]->ShowSlot();
 	}
@@ -101,16 +100,16 @@ void UWidgetInventory::SwitchSlot(int FirstIdToLoad, UGenericInventory* FirstInv
 	{
 		if (bIsPlayer)
 		{
-			if (FirstInventory == PlayerInventory || SecondInventory == PlayerInventory)
+			if (FirstInventory == PlayerInventory) // || SecondInventory == PlayerInventory)
 			{
 				Slots[FirstIdToLoad]->ShowSlot();
 				// Slots[FirstIdToLoad]->RevertSelectedSlot();
-			}/*
+			}
 			if (SecondInventory == PlayerInventory)
 			{
 				Slots[SecondIdToLoad]->ShowSlot();
 				// Slots[SecondIdToLoad]->RevertSelectedSlot();
-			}*/
+			}
 		}
 		else
 		{
@@ -137,8 +136,6 @@ void UWidgetInventory::LoadSlot(int IdToLoad, UGenericInventory* InventoryToLoad
 			if (InventoryToLoad == PlayerInventory)
 			{
 				Slots[IdToLoad]->ShowSlot();
-				CurrentId = 0;
-				CursorOver(EDirections::Default);
 			}
 		}
 		else
@@ -185,6 +182,13 @@ void UWidgetInventory::CursorOver(EDirections Direction) // TO TEST vv
 		break;
 		}
 		*/
+
+	if (this->GetVisibility() == ESlateVisibility::Hidden)
+		return;
+	
+	if (CurrentId >= 0) // check for missing referance
+		Slots[CurrentId]->NotOverSlot();
+	
 	int32 MaxSlot = SlotCreated;
 	int32 MaxColumn = GridColumn;
 	int32 TempMaxSlot = 0;
@@ -198,6 +202,9 @@ void UWidgetInventory::CursorOver(EDirections Direction) // TO TEST vv
 		}
 		MaxSlot += TempMaxSlot + 1;
 	}
+	
+	int32 CheckColumn = MaxSlot - MaxColumn;
+
 		
 	switch (Direction)
 	{
@@ -214,7 +221,7 @@ void UWidgetInventory::CursorOver(EDirections Direction) // TO TEST vv
 		}*/
 		break;
 	case EDirections::Left:
-		if (CurrentId < 0)
+		if (CurrentId > 0)
 		{
 			CurrentId--;
 		}/*
@@ -224,7 +231,7 @@ void UWidgetInventory::CursorOver(EDirections Direction) // TO TEST vv
 		}*/
 		break;
 	case EDirections::Down:
-		if (CurrentId <= MaxSlot)
+		if (CurrentId <= CheckColumn)
 		{
 			CurrentId += MaxColumn;
 		}/*
@@ -247,6 +254,18 @@ void UWidgetInventory::CursorOver(EDirections Direction) // TO TEST vv
 
 	if (bIsMoreInventoryOpen)
 	{
+		/* // the fuck vv
+		if (BeforeId <= TempMaxSlot && !bIsPlayer)
+		{// chek if BeforeId exist
+			Slots[BeforeId]->NotOverSlot();
+		}
+
+		if (BeforeId > TempMaxSlot && bIsPlayer)
+		{// chek if BeforeId exist
+			BeforeId -= TempMaxSlot;
+			Slots[BeforeId]->NotOverSlot();
+		}*/ // the fuck ^^
+
 		if (CurrentId <= TempMaxSlot && !bIsPlayer)
 		{
 			Slots[CurrentId]->OverSlot();

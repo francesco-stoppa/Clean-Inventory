@@ -16,6 +16,7 @@ struct FSlotSelected
 	GENERATED_BODY()
 
 	int32 Id;
+	UPROPERTY()
 	UGenericInventory* Inventory;
 
 	// Empty
@@ -41,7 +42,7 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")
 	FSwitchSlotsSignature onSwitchSlotsInventoryDelegate;
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")
-	FLoadSlotSignature onSLoadSlotDelegate;
+	FLoadSlotSignature onLoadSlotDelegate;
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")
 	FItemInfoSignature onItemInfoDelegate;
 protected:

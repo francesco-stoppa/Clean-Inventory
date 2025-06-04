@@ -1,7 +1,7 @@
 ﻿#include "InventorySystem/ActorComponents/ManageInventory.h"
-// #include "InventorySystem/Structs/Item.h"
+#include "InventorySystem/Items/ItemInfo.h"
 
-// what i need = switch (to debug) - muoversi nell'inventario (to debug) - info (to debug) 
+// what i need = - info (multy inv to debug) - muoversi nell'inventario (multy inv to debug) 
 // today = crafting con interazioni con l'inventario Select and craft
 // Pick up system = prendere tutti gli oggetti che entrano nel trigger salvarseli in una lista e poi al momento dell'interazione calcolare tutti gli oggetti e calcolare il più vicino (sarebbe meglio l'oggeto nella giusta distanza e angolazione) poi interagisci con quello.
 
@@ -35,7 +35,7 @@ void UManageInventory::RevertSelection(bool LoadUI)
 {
 	if (LoadUI)
 	{
-		onSLoadSlotDelegate.Broadcast(Selection.Id, Selection.Inventory);
+		onLoadSlotDelegate.Broadcast(Selection.Id, Selection.Inventory);
 	}
 	Selection = FSlotSelected();
 }
@@ -130,9 +130,10 @@ bool UManageInventory::ShowInventory()
 void UManageInventory::ReadItemInfo()
 {
 	UItemInfo* Item = GetItem(Selection.Id);
-
-	FName ItemName = Item->Name;
-	FText ItemDescription = Item->Description;
-	
-	onItemInfoDelegate.Broadcast(ItemName, ItemDescription);
+	if (Item != nullptr)
+	{
+		FName ItemName = Item->Name;
+		FText ItemDescription = Item->Description;
+		onItemInfoDelegate.Broadcast(ItemName, ItemDescription);
+	}
 }

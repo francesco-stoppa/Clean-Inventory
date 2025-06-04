@@ -1,8 +1,6 @@
 ﻿#include "InventorySystem/Widgets/WidgetCommands.h"
-#include "InventorySystem/Widgets/WidgetHint.h"
 #include "Refactoring/RefactoringCharacter.h"
-#include "InventorySystem/Enum/EnumList.h"
-
+#include "InventorySystem/ActorComponents/ManageInventory.h"
 
 void UWidgetCommands::NativeConstruct()
 {
@@ -11,7 +9,7 @@ void UWidgetCommands::NativeConstruct()
 	PlayerInventory = GetOwningPlayerPawn<ARefactoringCharacter>()->GetComponentByClass<UManageInventory>();
 	if (PlayerInventory)
 	{
-		// PlayerInventory->onXxxDelegate.AddDynamic(this, &UWidgetCommands::UpdateHints);
+		// PlayerInventory->onItemInfoDelegate.AddDynamic(this, &UWidgetCommands::UpdateHints);
 		CreateHints();
 	}
 }
