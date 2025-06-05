@@ -102,6 +102,7 @@ public:
 	void ReadItemInfo();
 
 protected:
+	void BeginPlay() override;
 private:
 
 };

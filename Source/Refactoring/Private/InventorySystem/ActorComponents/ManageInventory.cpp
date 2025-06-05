@@ -5,6 +5,13 @@
 // today = crafting con interazioni con l'inventario Select and craft
 // Pick up system = prendere tutti gli oggetti che entrano nel trigger salvarseli in una lista e poi al momento dell'interazione calcolare tutti gli oggetti e calcolare il più vicino (sarebbe meglio l'oggeto nella giusta distanza e angolazione) poi interagisci con quello.
 
+void UManageInventory::BeginPlay()
+{
+	Super::BeginPlay();
+
+	bIsPlayer = true;
+}
+
 void UManageInventory::SelectSlot(int32 Id, UGenericInventory* Inventory)
 {
 	if (Inventory == nullptr)
@@ -117,13 +124,18 @@ bool UManageInventory::ShowInventory()
 	if (bIsInventoryOpen)
 	{
 		bIsInventoryOpen = false;
+		if (ChestInventory != nullptr)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Cleaning"));
+			ChestInventory = nullptr;
+		}
+		RevertSelection();
 	}
 	else
 	{
 		bIsInventoryOpen = true;
 	}
 	onOpenInventoryDelegate.Broadcast(bIsInventoryOpen);
-	RevertSelection();
 	return bIsInventoryOpen;
 }
 

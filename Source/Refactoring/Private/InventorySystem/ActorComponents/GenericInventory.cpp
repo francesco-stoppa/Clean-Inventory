@@ -5,7 +5,7 @@ void UGenericInventory::BeginPlay()
 {
 	Super::BeginPlay();
 
-	bIsPlayer = true;
+	// bIsPlayer = true;
 }
 void UGenericInventory::FillSlots() // when i use it? i need to do it
 {

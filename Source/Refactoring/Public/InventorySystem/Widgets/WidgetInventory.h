@@ -18,7 +18,8 @@ protected:
 private:
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	bool bIsPlayer = false;
-	
+
+	int InvButtonUse = 0;
 	// Constructors
 public:
 protected:
@@ -26,7 +27,7 @@ private:
 	UPROPERTY()
 	class UManageInventory* PlayerInventory;
 	
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	class UGenericInventory* Inventory = nullptr;
 	
 	UPROPERTY(Meta = (BindWidget))
@@ -60,7 +61,7 @@ public:
 	
 	// Add vv
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
-	void CursorOver(EDirections Direction);
+	void CursorOver(EDirections Direction = EDirections::Default);
 
 protected:
 	virtual void NativeConstruct() override;

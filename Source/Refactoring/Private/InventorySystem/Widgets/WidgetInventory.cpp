@@ -49,22 +49,30 @@ void UWidgetInventory::CreateInventory()
 
 void UWidgetInventory::ShowInventory(bool bIsOpen)
 {
+	InvButtonUse++;
 	if (bIsOpen)
 	{
 		Inventory = PlayerInventory->GetChestInventory();
 		if (Inventory != nullptr)
 		{
+			UE_LOG(LogTemp, Display, TEXT("Inventory is open %s"), *Inventory->GetName());
 			bIsMoreInventoryOpen = true;
 			
 			if (!bIsPlayer)
 				Inventory->SetMaxItemNumber(SlotCreated);
 		}
-		LoadInventory(bIsPlayer);
+		else
+		{
+			UE_LOG(LogTemp, Display, TEXT("I will stay hidden"));
 
+			this->SetVisibility(ESlateVisibility::Hidden);
+		}
+		
+		LoadInventory(bIsPlayer);
 		
 		// Add vv
 		CurrentId = 0;
-		// CursorOver(EDirections::Default);
+		CursorOver(EDirections::Default);
 	}
 	else
 	{
@@ -76,6 +84,13 @@ void UWidgetInventory::ShowInventory(bool bIsOpen)
 		Inventory = nullptr;
 		bIsMoreInventoryOpen = false;
 	}
+
+	if (Inventory != nullptr)
+		UE_LOG(LogTemp, Display, TEXT("Inventory is open %s"), *Inventory->GetName());
+	if (bIsMoreInventoryOpen)
+		UE_LOG(LogTemp, Display, TEXT("Inventory are more than one "));
+
+	
 }
 
 void UWidgetInventory::LoadInventory(bool bIsPlayer_)
@@ -151,43 +166,10 @@ void UWidgetInventory::LoadSlot(int IdToLoad, UGenericInventory* InventoryToLoad
 // this is a case where there is only one inventary open and its is the main
 void UWidgetInventory::CursorOver(EDirections Direction) // TO TEST vv 
 {
-	/* // Old
-		switch (direction)
-		{
-		case EEnumList::Default:
-			break;
-		case EEnumList::Right:
-			if (CurrentId < SlotCreated) // mi pare (<< questo o SlotCreated - 1)
-			{
-				CurrentId++;
-			}
-		break;
-		case EEnumList::Left:
-			if (CurrentId < 0)
-			{
-				CurrentId--;
-			}
-		break;
-		case EEnumList::Down:
-		if (CurrentId <= SlotCreated)
-		{
-			CurrentId += GridColumn;
-		}
-		break;
-		case EEnumList::Up:
-			if (CurrentId >= GridColumn)
-			{
-				CurrentId -= GridColumn;
-			}
-		break;
-		}
-		*/
-
 	if (this->GetVisibility() == ESlateVisibility::Hidden)
+	{
 		return;
-	
-	if (CurrentId >= 0) // check for missing referance
-		Slots[CurrentId]->NotOverSlot();
+	}
 	
 	int32 MaxSlot = SlotCreated;
 	int32 MaxColumn = GridColumn;
@@ -251,35 +233,45 @@ void UWidgetInventory::CursorOver(EDirections Direction) // TO TEST vv
 		}*/
 		break;
 	}
-
+	
 	if (bIsMoreInventoryOpen)
 	{
-		/* // the fuck vv
-		if (BeforeId <= TempMaxSlot && !bIsPlayer)
-		{// chek if BeforeId exist
-			Slots[BeforeId]->NotOverSlot();
-		}
-
-		if (BeforeId > TempMaxSlot && bIsPlayer)
-		{// chek if BeforeId exist
-			BeforeId -= TempMaxSlot;
-			Slots[BeforeId]->NotOverSlot();
-		}*/ // the fuck ^^
-
-		if (CurrentId <= TempMaxSlot && !bIsPlayer)
+		if (Direction == EDirections::Default)
 		{
-			Slots[CurrentId]->OverSlot();
+			if (CurrentId <= TempMaxSlot && !bIsPlayer)
+			{
+				Slots[CurrentId]->NotOverSlot();
+			}
+			if (CurrentId > TempMaxSlot && bIsPlayer)
+			{
+				CurrentId -= TempMaxSlot;
+				Slots[CurrentId]->NotOverSlot();
+			}
 		}
-
-		if (CurrentId > TempMaxSlot && bIsPlayer)
+		else
 		{
-			CurrentId -= TempMaxSlot;
-			Slots[CurrentId]->OverSlot();
+			if (CurrentId <= TempMaxSlot && !bIsPlayer)
+			{
+				Slots[CurrentId]->OverSlot(); // select slot
+			}
+
+			if (CurrentId > TempMaxSlot && bIsPlayer)
+			{
+				CurrentId -= TempMaxSlot;
+				Slots[CurrentId]->OverSlot();
+			}
 		}
 	}
 	else
 	{
-		Slots[CurrentId]->OverSlot();
+		if (Direction == EDirections::Default)
+		{
+			Slots[CurrentId]->NotOverSlot();
+		}
+		else
+		{
+			Slots[CurrentId]->OverSlot();
+		}
 	}
 }
 
