@@ -17,6 +17,8 @@ private:
 	int32 Id;
 	UPROPERTY(VisibleAnywhere, Category = "UI")
 	bool bIsPlayer = false;
+
+	bool bIsSelected = false;
 	/*
 	UPROPERTY()
 	class UTexture2D* AssetThumbnail;*/

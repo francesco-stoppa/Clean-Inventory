@@ -7,7 +7,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOpenInventorySignature, bool, bIsInventoryOpen);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FSwitchSlotsSignature, int, FirstIdToLoad, UGenericInventory*, FirstInventory, int, SecondIdToLoad, UGenericInventory*, SecondInventory);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FLoadSlotSignature, int, IdToLoad, UGenericInventory*, InventoryToLoad);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FLoadSlotSignature, int, IdToLoad, UGenericInventory*, InventoryToLoad, bool, bIsSelection);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FItemInfoSignature, FName, ItemName, FText, ItemDescription);
 
 USTRUCT(BlueprintType)
@@ -52,10 +52,13 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
 	FSlotSelected Selection;
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
+	FSlotSelected Temp_Selection;
+	UPROPERTY(VisibleAnywhere, Category = "Inventory")
 	class UGenericInventory* ChestInventory = nullptr;
 	UPROPERTY(VisibleAnywhere, Category = "Inventory")
 	bool bIsInventoryOpen = false;
-	
+
+	int bob = 0;
 	// Constructors
 public:
 protected:
@@ -63,7 +66,7 @@ private:
 
 	// Methods
 public:
-	UFUNCTION(Category = "Inventory")
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	void SelectSlot(int32 Id, UGenericInventory* Inventory);
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	void RevertSelection(bool LoadUI = true);
@@ -101,6 +104,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	void ReadItemInfo();
 
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void TempSelection(int32 Id, UGenericInventory* Inventory);
 protected:
 	void BeginPlay() override;
 private:

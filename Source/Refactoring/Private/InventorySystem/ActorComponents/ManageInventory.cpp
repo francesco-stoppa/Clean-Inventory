@@ -1,8 +1,7 @@
 ﻿#include "InventorySystem/ActorComponents/ManageInventory.h"
 #include "InventorySystem/Items/ItemInfo.h"
 
-// what i need = - info (multy inv to debug) - muoversi nell'inventario (multy inv to debug) 
-// today = crafting con interazioni con l'inventario Select and craft
+// Bug = de over Selection to debug
 // Pick up system = prendere tutti gli oggetti che entrano nel trigger salvarseli in una lista e poi al momento dell'interazione calcolare tutti gli oggetti e calcolare il più vicino (sarebbe meglio l'oggeto nella giusta distanza e angolazione) poi interagisci con quello.
 
 void UManageInventory::BeginPlay()
@@ -23,13 +22,16 @@ void UManageInventory::SelectSlot(int32 Id, UGenericInventory* Inventory)
 	if (Selection.Inventory == nullptr)
 	{
 		Selection = NewSelection;
+		onLoadSlotDelegate.Broadcast(Id, Inventory, true);
 	}
 	else
 	{
 		if (Selection.Inventory == Inventory && Selection.Id == Id)
 		{
-			// RevertSelection();
 			ReadItemInfo();
+			// RevertSelection();
+			//ReadItemInfo(); //info press Y
+			//TempSelection(Id, Inventory);
 		}
 		else
 		{
@@ -38,11 +40,35 @@ void UManageInventory::SelectSlot(int32 Id, UGenericInventory* Inventory)
 		}
 	}
 }
+
+void UManageInventory::TempSelection(int32 Id, UGenericInventory* Inventory)
+{
+	FSlotSelected NewSelection = FSlotSelected(Id, Inventory);
+
+	if (Temp_Selection.Inventory == nullptr)
+	{
+		Temp_Selection = NewSelection;
+	}
+	else
+	{
+		if (Temp_Selection.Inventory == Inventory && Temp_Selection.Id == Id)
+		{
+			// RevertSelection();
+			ReadItemInfo();
+		}
+		else
+		{
+			SwitchSlot(Temp_Selection, NewSelection);
+			RevertSelection(false);
+		}
+	}
+}
+
 void UManageInventory::RevertSelection(bool LoadUI)
 {
 	if (LoadUI)
 	{
-		onLoadSlotDelegate.Broadcast(Selection.Id, Selection.Inventory);
+		onLoadSlotDelegate.Broadcast(Selection.Id, Selection.Inventory, false);
 	}
 	Selection = FSlotSelected();
 }
@@ -126,7 +152,6 @@ bool UManageInventory::ShowInventory()
 		bIsInventoryOpen = false;
 		if (ChestInventory != nullptr)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Cleaning"));
 			ChestInventory = nullptr;
 		}
 		RevertSelection();
@@ -136,6 +161,18 @@ bool UManageInventory::ShowInventory()
 		bIsInventoryOpen = true;
 	}
 	onOpenInventoryDelegate.Broadcast(bIsInventoryOpen);
+	/*
+	if (bIsInventoryOpen)
+	{
+		if (ChestInventory != nullptr)
+		{
+			SelectSlot(0, ChestInventory);
+		}
+		else
+		{
+			SelectSlot(0, this);
+		}
+	}*/
 	return bIsInventoryOpen;
 }
 

@@ -25,15 +25,31 @@ void UWidgetSlot::OverSlot()
 {
 	if (PlayerInventory != nullptr && Inventory != nullptr)
 	{
-		SlotClicked->SetVisibility(ESlateVisibility::Visible);
-		SlotClicked->SetRenderOpacity(0.45f);
+		if (bIsSelected)
+		{
+			SlotClicked->SetVisibility(ESlateVisibility::Visible);
+			SlotClicked->SetRenderOpacity(0.8f);
+		}
+		else
+		{
+			SlotClicked->SetVisibility(ESlateVisibility::Visible);
+			SlotClicked->SetRenderOpacity(0.45f);
+		}
 	}
 }
 void UWidgetSlot::NotOverSlot()
 {
 	if (PlayerInventory != nullptr && Inventory != nullptr)
 	{
-		SlotClicked->SetVisibility(ESlateVisibility::Hidden);
+		if (bIsSelected)
+		{
+			SlotClicked->SetVisibility(ESlateVisibility::Visible);
+			SlotClicked->SetRenderOpacity(0.8f);
+		}
+		else
+		{
+			SlotClicked->SetVisibility(ESlateVisibility::Hidden);
+		}
 	}
 }
 
@@ -41,14 +57,16 @@ void UWidgetSlot::SelectSlot()
 {
 	if (PlayerInventory != nullptr && Inventory != nullptr)
 	{
+		bIsSelected = true;
 		SlotClicked->SetVisibility(ESlateVisibility::Visible);
-		SlotClicked->SetRenderOpacity(0.6f);
+		SlotClicked->SetRenderOpacity(0.8f);
 		PlayerInventory->SelectSlot(Id, Inventory);
 	}
 }
 
 void UWidgetSlot::RevertSelectedSlot()
 {
+	bIsSelected = false;
 	SlotClicked->SetVisibility(ESlateVisibility::Hidden);
 }
 
@@ -66,5 +84,6 @@ void UWidgetSlot::ShowSlot()
 	}
 	
 	SlotClicked->SetVisibility(ESlateVisibility::Hidden);
+	bIsSelected = false;
 }
 

@@ -18,6 +18,7 @@ protected:
 private:
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	bool bIsPlayer = false;
+	UPROPERTY(VisibleAnywhere, Category = "Inventory")
 
 	int InvButtonUse = 0;
 	// Constructors
@@ -57,11 +58,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	void SwitchSlot(int FirstIdToLoad, UGenericInventory* FirstInventory, int SecondIdToLoad, UGenericInventory* SecondInventory);
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
-	void LoadSlot(int IdToLoad, UGenericInventory* InventoryToLoad);
+	void LoadSlot(int IdToLoad, UGenericInventory* InventoryToLoad, bool bIsSelection);
 	
 	// Add vv
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
-	void CursorOver(EDirections Direction = EDirections::Default);
+	void CursorOver(EDirections Direction = EDirections::Default, bool test = false);
 
 protected:
 	virtual void NativeConstruct() override;

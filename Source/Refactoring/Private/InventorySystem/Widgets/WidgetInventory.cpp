@@ -55,24 +55,28 @@ void UWidgetInventory::ShowInventory(bool bIsOpen)
 		Inventory = PlayerInventory->GetChestInventory();
 		if (Inventory != nullptr)
 		{
-			UE_LOG(LogTemp, Display, TEXT("Inventory is open %s"), *Inventory->GetName());
 			bIsMoreInventoryOpen = true;
 			
 			if (!bIsPlayer)
+			{
 				Inventory->SetMaxItemNumber(SlotCreated);
+			}
+		}
+		
+		if (!bIsPlayer && Inventory == nullptr)
+		{
+			GridPanel->SetVisibility(ESlateVisibility::Hidden);
 		}
 		else
 		{
-			UE_LOG(LogTemp, Display, TEXT("I will stay hidden"));
-
-			this->SetVisibility(ESlateVisibility::Hidden);
+			GridPanel->SetVisibility(ESlateVisibility::Visible);
 		}
-		
+
 		LoadInventory(bIsPlayer);
 		
 		// Add vv
 		CurrentId = 0;
-		CursorOver(EDirections::Default);
+		CursorOver(EDirections::Default, true);
 	}
 	else
 	{
@@ -80,17 +84,10 @@ void UWidgetInventory::ShowInventory(bool bIsOpen)
 		{
 			Slots[n]->RevertSelectedSlot();
 		}
-		this->SetVisibility(ESlateVisibility::Hidden);
+		GridPanel->SetVisibility(ESlateVisibility::Hidden);
 		Inventory = nullptr;
 		bIsMoreInventoryOpen = false;
 	}
-
-	if (Inventory != nullptr)
-		UE_LOG(LogTemp, Display, TEXT("Inventory is open %s"), *Inventory->GetName());
-	if (bIsMoreInventoryOpen)
-		UE_LOG(LogTemp, Display, TEXT("Inventory are more than one "));
-
-	
 }
 
 void UWidgetInventory::LoadInventory(bool bIsPlayer_)
@@ -142,7 +139,7 @@ void UWidgetInventory::SwitchSlot(int FirstIdToLoad, UGenericInventory* FirstInv
 	}
 }
 
-void UWidgetInventory::LoadSlot(int IdToLoad, UGenericInventory* InventoryToLoad)
+void UWidgetInventory::LoadSlot(int IdToLoad, UGenericInventory* InventoryToLoad, bool bIsSelection)
 {
 	if (InventoryToLoad != nullptr && PlayerInventory != nullptr)
 	{
@@ -150,23 +147,40 @@ void UWidgetInventory::LoadSlot(int IdToLoad, UGenericInventory* InventoryToLoad
 		{
 			if (InventoryToLoad == PlayerInventory)
 			{
-				Slots[IdToLoad]->ShowSlot();
+				if (bIsSelection)
+				{
+					Slots[IdToLoad]->SelectSlot();
+				}
+				else
+				{
+					Slots[IdToLoad]->ShowSlot();
+				}
 			}
 		}
 		else
 		{
-			if (InventoryToLoad == Inventory)
+			if (Inventory != nullptr)
 			{
-				Slots[IdToLoad]->ShowSlot();
+				if (InventoryToLoad == Inventory)
+				{
+					if (bIsSelection)
+					{
+						Slots[IdToLoad]->SelectSlot();
+					}
+					else
+					{
+						Slots[IdToLoad]->ShowSlot();
+					}
+				}
 			}
 		}
 	}
 }
 
 // this is a case where there is only one inventary open and its is the main
-void UWidgetInventory::CursorOver(EDirections Direction) // TO TEST vv 
+void UWidgetInventory::CursorOver(EDirections Direction, bool test) // TO TEST vv 
 {
-	if (this->GetVisibility() == ESlateVisibility::Hidden)
+	if (GridPanel->GetVisibility() == ESlateVisibility::Hidden)
 	{
 		return;
 	}
@@ -191,6 +205,8 @@ void UWidgetInventory::CursorOver(EDirections Direction) // TO TEST vv
 	switch (Direction)
 	{
 	case EDirections::Default:
+		break;
+	case EDirections::Enter:
 		break;
 	case EDirections::Right:
 		if (CurrentId < MaxSlot) 
@@ -248,17 +264,53 @@ void UWidgetInventory::CursorOver(EDirections Direction) // TO TEST vv
 				Slots[CurrentId]->NotOverSlot();
 			}
 		}
+		else if (Direction == EDirections::Enter)
+		{
+			if (CurrentId <= TempMaxSlot && !bIsPlayer)
+			{
+				Slots[CurrentId]->SelectSlot();
+				Slots[CurrentId]->OverSlot();
+			}
+
+			if (CurrentId > TempMaxSlot && bIsPlayer)
+			{
+				CurrentId -= TempMaxSlot;
+				Slots[CurrentId]->SelectSlot();
+				Slots[CurrentId]->OverSlot();
+			}
+		}
 		else
 		{
 			if (CurrentId <= TempMaxSlot && !bIsPlayer)
 			{
 				Slots[CurrentId]->OverSlot(); // select slot
+				UE_LOG(LogTemp, Warning, TEXT("MultyInvChest Slot: %d"), CurrentId);
+
 			}
 
 			if (CurrentId > TempMaxSlot && bIsPlayer)
 			{
 				CurrentId -= TempMaxSlot;
 				Slots[CurrentId]->OverSlot();
+				UE_LOG(LogTemp, Warning, TEXT("MultyInvPlay Slot: %d"), CurrentId);
+
+			}
+		}
+
+		if (test)
+		{
+			if (CurrentId <= TempMaxSlot && !bIsPlayer)
+			{
+				Slots[CurrentId]->OverSlot();
+				UE_LOG(LogTemp, Warning, TEXT("MultyInvChest Slot: %d"), CurrentId);
+			}
+
+			if (CurrentId > TempMaxSlot && bIsPlayer)
+			{
+				CurrentId -= TempMaxSlot;
+				Slots[CurrentId]->OverSlot();
+				UE_LOG(LogTemp, Warning, TEXT("MultyInvPlay Slot: %d"), CurrentId);
+
 			}
 		}
 	}
@@ -268,7 +320,17 @@ void UWidgetInventory::CursorOver(EDirections Direction) // TO TEST vv
 		{
 			Slots[CurrentId]->NotOverSlot();
 		}
+		else if (Direction == EDirections::Enter)
+		{
+			Slots[CurrentId]->SelectSlot();
+			Slots[CurrentId]->OverSlot();
+		}
 		else
+		{
+			Slots[CurrentId]->OverSlot();
+		}
+
+		if (test)
 		{
 			Slots[CurrentId]->OverSlot();
 		}

@@ -10,7 +10,8 @@ enum class EDirections : uint8
 	Right,
 	Left,
 	Up,
-	Down
+	Down,
+	Enter
 };
 
 UENUM(BlueprintType)
