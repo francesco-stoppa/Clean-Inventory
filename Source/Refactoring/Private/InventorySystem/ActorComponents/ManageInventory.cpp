@@ -1,7 +1,9 @@
 ﻿#include "InventorySystem/ActorComponents/ManageInventory.h"
+
+#include "InventorySystem/Enum/EnumList.h"
 #include "InventorySystem/Items/ItemInfo.h"
 
-// Bug = de over Selection to debug
+// Bug = de switch Selection TO TEST (is on WIdgetInventory->SwitchSlot())
 // Pick up system = prendere tutti gli oggetti che entrano nel trigger salvarseli in una lista e poi al momento dell'interazione calcolare tutti gli oggetti e calcolare il più vicino (sarebbe meglio l'oggeto nella giusta distanza e angolazione) poi interagisci con quello.
 
 void UManageInventory::BeginPlay()
@@ -23,12 +25,14 @@ void UManageInventory::SelectSlot(int32 Id, UGenericInventory* Inventory)
 	{
 		Selection = NewSelection;
 		onLoadSlotDelegate.Broadcast(Id, Inventory, true);
+		onCommandDelegate.Broadcast(ECommandStats::Switch);  
 	}
 	else
 	{
 		if (Selection.Inventory == Inventory && Selection.Id == Id)
 		{
-			ReadItemInfo();
+			// ReadItemInfo();// presss Y
+			// selection 
 			// RevertSelection();
 			//ReadItemInfo(); //info press Y
 			//TempSelection(Id, Inventory);
@@ -37,29 +41,7 @@ void UManageInventory::SelectSlot(int32 Id, UGenericInventory* Inventory)
 		{
 			SwitchSlot(Selection, NewSelection);
 			RevertSelection(false);
-		}
-	}
-}
-
-void UManageInventory::TempSelection(int32 Id, UGenericInventory* Inventory)
-{
-	FSlotSelected NewSelection = FSlotSelected(Id, Inventory);
-
-	if (Temp_Selection.Inventory == nullptr)
-	{
-		Temp_Selection = NewSelection;
-	}
-	else
-	{
-		if (Temp_Selection.Inventory == Inventory && Temp_Selection.Id == Id)
-		{
-			// RevertSelection();
-			ReadItemInfo();
-		}
-		else
-		{
-			SwitchSlot(Temp_Selection, NewSelection);
-			RevertSelection(false);
+			// SelectSlot(Id, Inventory); // Sarebbe meglio dire: "OnMouseOver();"
 		}
 	}
 }
@@ -70,6 +52,7 @@ void UManageInventory::RevertSelection(bool LoadUI)
 	{
 		onLoadSlotDelegate.Broadcast(Selection.Id, Selection.Inventory, false);
 	}
+	onCommandDelegate.Broadcast(ECommandStats::Inventory);
 	Selection = FSlotSelected();
 }
 
@@ -80,6 +63,7 @@ void UManageInventory::SwitchSlot(FSlotSelected FirstSelection, FSlotSelected Se
 	FirstSelection.Inventory->SetItem(FirstSelection.Id, SecondItem);
 	
 	onSwitchSlotsInventoryDelegate.Broadcast(FirstSelection.Id, FirstSelection.Inventory,SecondCoordinates.Id, SecondCoordinates.Inventory);
+	onCommandDelegate.Broadcast(ECommandStats::Inventory);
 }
 
 void UManageInventory::UseSlot()
@@ -143,6 +127,14 @@ UTexture2D* UManageInventory::GetSlotTexture(int32 Id, UGenericInventory* Invent
 void UManageInventory::SetChestInventory(UGenericInventory* NewChestInventory)
 {
 	ChestInventory = NewChestInventory;
+	if (NewChestInventory != nullptr)
+	{
+		onCommandDelegate.Broadcast(ECommandStats::Chest);
+	}
+	else
+	{
+		onCommandDelegate.Broadcast(ECommandStats::Game);
+	}
 }
 
 bool UManageInventory::ShowInventory()
@@ -155,10 +147,12 @@ bool UManageInventory::ShowInventory()
 			ChestInventory = nullptr;
 		}
 		RevertSelection();
+		onCommandDelegate.Broadcast(ECommandStats::Game);
 	}
 	else
 	{
 		bIsInventoryOpen = true;
+		onCommandDelegate.Broadcast(ECommandStats::Inventory);
 	}
 	onOpenInventoryDelegate.Broadcast(bIsInventoryOpen);
 	/*
@@ -178,6 +172,9 @@ bool UManageInventory::ShowInventory()
 
 void UManageInventory::ReadItemInfo()
 {
+	if (Selection.Inventory == nullptr)
+		return;
+	
 	UItemInfo* Item = GetItem(Selection.Id);
 	if (Item != nullptr)
 	{
@@ -185,4 +182,5 @@ void UManageInventory::ReadItemInfo()
 		FText ItemDescription = Item->Description;
 		onItemInfoDelegate.Broadcast(ItemName, ItemDescription);
 	}
+	onCommandDelegate.Broadcast(ECommandStats::Info);
 }

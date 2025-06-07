@@ -6,9 +6,10 @@
 #include "ManageInventory.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOpenInventorySignature, bool, bIsInventoryOpen);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FSwitchSlotsSignature, int, FirstIdToLoad, UGenericInventory*, FirstInventory, int, SecondIdToLoad, UGenericInventory*, SecondInventory);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FLoadSlotSignature, int, IdToLoad, UGenericInventory*, InventoryToLoad, bool, bIsSelection);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FSwitchSlotsSignature, int32, FirstIdToLoad, UGenericInventory*, FirstInventory, int32, SecondIdToLoad, UGenericInventory*, SecondInventory);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FLoadSlotSignature, int32, IdToLoad, UGenericInventory*, InventoryToLoad, bool, bIsSelection);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FItemInfoSignature, FName, ItemName, FText, ItemDescription);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCommandSignature, ECommandStats, ComandStat);
 
 USTRUCT(BlueprintType)
 struct FSlotSelected
@@ -45,6 +46,9 @@ public:
 	FLoadSlotSignature onLoadSlotDelegate;
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")
 	FItemInfoSignature onItemInfoDelegate;
+	// Add commands
+	UPROPERTY(BlueprintAssignable, Category = "Inventory")
+	FCommandSignature onCommandDelegate;
 protected:
 private:
 	UPROPERTY(EditAnywhere, Category = "Inventory")
@@ -104,8 +108,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	void ReadItemInfo();
 
-	UFUNCTION(BlueprintCallable, Category = "Inventory")
-	void TempSelection(int32 Id, UGenericInventory* Inventory);
 protected:
 	void BeginPlay() override;
 private:

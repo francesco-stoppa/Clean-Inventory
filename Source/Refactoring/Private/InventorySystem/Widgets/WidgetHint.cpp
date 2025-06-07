@@ -2,32 +2,41 @@
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
 
-/*
 void UWidgetHint::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	this->SetVisibility(ESlateVisibility::Hidden);
-}*/
+	DefaultImage = Cast<UTexture2D>(Image->GetBrush().GetResourceObject()); 
+
+}
 
 void UWidgetHint::SetCommand(FName CommandText, UTexture2D* TextureImage)
 {
-	Image->SetBrushFromTexture(TextureImage);
+	BlockCommand(1.f);
+	if (TextureImage != nullptr)
+	{
+		Image->SetBrushFromTexture(TextureImage);
+	}
+	else
+	{
+		Image->SetBrushFromTexture(DefaultImage);
+	}
+	
 	TextBlock->SetText(FText::FromName(CommandText));
 }
-void UWidgetHint::BlockCommand()
+void UWidgetHint::BlockCommand(float SetOpacity)
 {
 	// Image->SetOpacity(true);
-	Image->SetRenderOpacity(0.25f);
+	Image->SetRenderOpacity(SetOpacity);
 	// TextBlock->SetOpacity(true);
-	TextBlock->SetRenderOpacity(0.25f);
+	TextBlock->SetRenderOpacity(SetOpacity);
 }
 
 void UWidgetHint::ShowCommand(bool bHide)
 {
 	if (bHide)
 	{
-		this->SetVisibility(ESlateVisibility::Hidden);
+		this->SetVisibility(ESlateVisibility::Hidden); // occhio che al posto di usare "this" potresti usare UWidget padre
 	}
 	else
 	{

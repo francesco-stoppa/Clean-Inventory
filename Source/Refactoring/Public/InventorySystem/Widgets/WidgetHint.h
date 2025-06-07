@@ -17,7 +17,9 @@ private:
 	TSoftObjectPtr<class UImage> Image;
 	UPROPERTY(Meta = (BindWidget))
 	TSoftObjectPtr<class UTextBlock> TextBlock;
-	
+
+	UPROPERTY()
+	UTexture2D* DefaultImage;
 	// Constructors
 public:
 protected:
@@ -28,12 +30,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Command")
 	void SetCommand(FName CommandText, UTexture2D* TextureImage);
 	UFUNCTION(BlueprintCallable, Category = "Command")
-	void BlockCommand();
+	void BlockCommand(float SetOpoacity = 0.3f);
 	UFUNCTION(BlueprintCallable, Category = "Command")
 	void ShowCommand(bool bHide = false);
 	
 protected:
-	// virtual void NativeConstruct() override;
+	virtual void NativeConstruct() override;
 
 private:
 	

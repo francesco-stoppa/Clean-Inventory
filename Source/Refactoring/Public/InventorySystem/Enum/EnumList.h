@@ -18,7 +18,12 @@ UENUM(BlueprintType)
 enum class ECommands : uint8
 {
 	Default,
-	// Select,
+	Inventory,
+	Open,
+	Take,
+	Switch,
+	Revert,
+	Select,
 	Use,
 	Info,
 	Drop,
@@ -36,5 +41,16 @@ enum class EInput : uint8
 	E,
 	BackSpace,
 	Enter
+};
+
+UENUM(BlueprintType)
+enum class ECommandStats : uint8
+{
+	Default,
+	Game,
+	Inventory,
+	Switch,
+	Info,
+	Chest
 };
 

@@ -37,7 +37,7 @@ private:
 	
 	// Methods
 public:
-	void UpdateHints(int32 Id, ECommands Command);
+	void UpdateHints(ECommandStats CommandStat);
 	
 protected:
 	virtual void NativeConstruct() override;

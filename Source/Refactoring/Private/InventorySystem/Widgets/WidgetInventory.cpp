@@ -120,6 +120,7 @@ void UWidgetInventory::SwitchSlot(int FirstIdToLoad, UGenericInventory* FirstInv
 			if (SecondInventory == PlayerInventory)
 			{
 				Slots[SecondIdToLoad]->ShowSlot();
+				Slots[SecondIdToLoad]->OverSlot();
 				// Slots[SecondIdToLoad]->RevertSelectedSlot();
 			}
 		}
@@ -133,6 +134,7 @@ void UWidgetInventory::SwitchSlot(int FirstIdToLoad, UGenericInventory* FirstInv
 			if (SecondInventory == Inventory)
 			{
 				Slots[SecondIdToLoad]->ShowSlot();
+				Slots[SecondIdToLoad]->OverSlot();
 				// Slots[SecondIdToLoad]->RevertSelectedSlot();
 			}
 		}
@@ -149,7 +151,7 @@ void UWidgetInventory::LoadSlot(int IdToLoad, UGenericInventory* InventoryToLoad
 			{
 				if (bIsSelection)
 				{
-					Slots[IdToLoad]->SelectSlot();
+					Slots[IdToLoad]->OverSlot(); // change from selection (TO TEST)
 				}
 				else
 				{
@@ -165,7 +167,7 @@ void UWidgetInventory::LoadSlot(int IdToLoad, UGenericInventory* InventoryToLoad
 				{
 					if (bIsSelection)
 					{
-						Slots[IdToLoad]->SelectSlot();
+						Slots[IdToLoad]->OverSlot(); // change from selection (TO TEST)
 					}
 					else
 					{
@@ -178,8 +180,8 @@ void UWidgetInventory::LoadSlot(int IdToLoad, UGenericInventory* InventoryToLoad
 }
 
 // this is a case where there is only one inventary open and its is the main
-void UWidgetInventory::CursorOver(EDirections Direction, bool test) // TO TEST vv 
-{
+void UWidgetInventory::CursorOver(EDirections Direction, bool test) // Not work with multiple inventory
+{																	// Need to test the current id change with another way.
 	if (GridPanel->GetVisibility() == ESlateVisibility::Hidden)
 	{
 		return;
@@ -285,7 +287,6 @@ void UWidgetInventory::CursorOver(EDirections Direction, bool test) // TO TEST v
 			{
 				Slots[CurrentId]->OverSlot(); // select slot
 				UE_LOG(LogTemp, Warning, TEXT("MultyInvChest Slot: %d"), CurrentId);
-
 			}
 
 			if (CurrentId > TempMaxSlot && bIsPlayer)
@@ -293,7 +294,6 @@ void UWidgetInventory::CursorOver(EDirections Direction, bool test) // TO TEST v
 				CurrentId -= TempMaxSlot;
 				Slots[CurrentId]->OverSlot();
 				UE_LOG(LogTemp, Warning, TEXT("MultyInvPlay Slot: %d"), CurrentId);
-
 			}
 		}
 
